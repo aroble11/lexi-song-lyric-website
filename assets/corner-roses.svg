@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" fill="none">
+  <!-- ==========================================================
+       corner-roses.svg  (baked colors for the emo redesign)
+       A cluster of oxblood roses on near-black stems + leaves,
+       composed to sit in a corner of the page frame. Scaled and
+       positioned by .bg-frame in styles.css. One <g id="rose"> is
+       defined once and re-used at a few sizes.
+       ========================================================== -->
+  <defs>
+    <g id="rose">
+      <g stroke="#2b0d14" stroke-width="2" stroke-linejoin="round">
+        <!-- 6 outer petals (darkest oxblood) -->
+        <g fill="#48141f">
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z"/>
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z" transform="rotate(60)"/>
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z" transform="rotate(120)"/>
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z" transform="rotate(180)"/>
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z" transform="rotate(240)"/>
+          <path d="M0,0 C -38,-22 -42,-74 0,-98 C 42,-74 38,-22 0,0 Z" transform="rotate(300)"/>
+        </g>
+        <!-- 6 mid petals (offset, brighter wine) -->
+        <g fill="#6b2030">
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(30)"/>
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(90)"/>
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(150)"/>
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(210)"/>
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(270)"/>
+          <path d="M0,0 C -26,-15 -30,-52 0,-68 C 30,-52 26,-15 0,0 Z" transform="rotate(330)"/>
+        </g>
+        <!-- 3 inner petals (the rolled center) -->
+        <g fill="#86283b">
+          <path d="M0,0 C -16,-9 -18,-32 0,-42 C 18,-32 16,-9 0,0 Z" transform="rotate(15)"/>
+          <path d="M0,0 C -16,-9 -18,-32 0,-42 C 18,-32 16,-9 0,0 Z" transform="rotate(135)"/>
+          <path d="M0,0 C -16,-9 -18,-32 0,-42 C 18,-32 16,-9 0,0 Z" transform="rotate(255)"/>
+        </g>
+      </g>
+      <!-- the little curl at the very center -->
+      <path d="M-9,-2 C-13,-13 3,-19 9,-10 C14,-2 4,8 -4,3" fill="none" stroke="#a8384b" stroke-width="3" stroke-linecap="round"/>
+      <circle r="3.5" fill="#a8384b"/>
+    </g>
+
+    <g id="leaf">
+      <path d="M0,0 C -12,-20 -12,-46 0,-64 C 12,-46 12,-20 0,0 Z" fill="#0e0a10" stroke="#241a2c" stroke-width="1.4"/>
+      <path d="M0,-6 L0,-56" stroke="#34283f" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <!-- stems (behind everything) -->
+  <g fill="none" stroke="#150c12" stroke-width="7" stroke-linecap="round">
+    <path d="M110,296 C 96,350 92,394 86,412"/>
+    <path d="M252,344 C 250,378 256,404 262,420"/>
+    <path d="M54,168 C 44,224 70,266 110,296"/>
+    <path d="M110,296 C 170,316 214,330 252,344"/>
+  </g>
+
+  <!-- black leaves along the stems -->
+  <g>
+    <use href="#leaf" transform="translate(92,356) rotate(28) scale(1.05)"/>
+    <use href="#leaf" transform="translate(150,316) rotate(-52) scale(0.95)"/>
+    <use href="#leaf" transform="translate(208,330) rotate(46) scale(0.9)"/>
+    <use href="#leaf" transform="translate(70,240) rotate(-30) scale(0.85)"/>
+    <use href="#leaf" transform="translate(40,206) rotate(18) scale(0.7)"/>
+  </g>
+
+  <!-- the roses themselves -->
+  <use href="#rose" transform="translate(110,296) scale(1.05)"/>
+  <use href="#rose" transform="translate(252,344) scale(0.72)"/>
+  <use href="#rose" transform="translate(54,168) scale(0.5)"/>
+</svg>

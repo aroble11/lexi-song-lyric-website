@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300" fill="none">
+  <!-- ==========================================================
+       splatter.svg  (blood spatter)
+       An irregular crimson blob with flung droplets and a couple
+       of drips. Quiet corner accent for the page frame.
+       ========================================================== -->
+  <g fill="#7a1f28">
+    <path d="M118,118 C 150,96 196,108 206,142 C 220,182 196,216 158,220 C 120,224 92,202 96,164 C 99,138 104,134 118,118 Z"/>
+    <path d="M206,142 C 226,138 236,150 232,164 C 226,178 210,176 204,162 Z"/>
+    <path d="M118,118 C 110,100 116,86 130,86 C 140,86 142,100 132,112 Z"/>
+  </g>
+  <g fill="#9e2b34">
+    <circle cx="62" cy="84" r="9"/>
+    <circle cx="238" cy="92" r="6"/>
+    <circle cx="252" cy="206" r="11"/>
+    <circle cx="92" cy="244" r="7.5"/>
+    <circle cx="196" cy="252" r="5"/>
+    <circle cx="40" cy="158" r="4.5"/>
+    <circle cx="156" cy="158" r="14" fill="#5c1822"/>
+  </g>
+  <g fill="#7a1f28">
+    <ellipse cx="74" cy="58" rx="3.2" ry="6"/>
+    <ellipse cx="266" cy="150" rx="3" ry="6.5"/>
+    <ellipse cx="130" cy="276" rx="3.4" ry="7"/>
+    <circle cx="222" cy="46" r="3"/>
+    <circle cx="28" cy="206" r="2.6"/>
+    <circle cx="284" cy="248" r="2.4"/>
+  </g>
+</svg>

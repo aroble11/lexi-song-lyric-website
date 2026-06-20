@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" fill="none">
+  <!-- ==========================================================
+       corner-cracks.svg  (broken glass)
+       Near-white hairline cracks radiating from an impact point
+       up in the corner, with a few jagged concentric rings. Pure
+       line-art so it stays crisp at any size.
+       ========================================================== -->
+  <g stroke="#dfe6ea" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- radial cracks fanning out of the impact at (340,70) -->
+    <g stroke-width="1.4">
+      <polyline points="340,70 244,104 118,150" opacity="0.55"/>
+      <polyline points="340,70 214,150 58,232" opacity="0.6"/>
+      <polyline points="340,70 252,202 150,322" opacity="0.5"/>
+      <polyline points="340,70 300,210 252,360" opacity="0.45"/>
+      <polyline points="340,70 336,182 330,302" opacity="0.5"/>
+      <polyline points="340,70 320,232 300,392" opacity="0.4"/>
+    </g>
+    <g stroke-width="0.9">
+      <polyline points="340,70 282,56 200,62" opacity="0.5"/>
+      <polyline points="340,70 222,76 92,92" opacity="0.45"/>
+      <polyline points="340,70 368,132 392,202" opacity="0.4"/>
+      <polyline points="340,70 178,128 86,210" opacity="0.3"/>
+      <polyline points="340,70 268,260 214,360" opacity="0.3"/>
+    </g>
+    <!-- jagged concentric rings near the impact -->
+    <g stroke-width="1">
+      <polygon points="322,52 352,46 366,64 360,86 338,96 318,82 314,62" opacity="0.6"/>
+      <polygon points="300,40 344,28 380,52 384,92 360,124 318,120 290,92 288,60" opacity="0.4"/>
+      <polygon points="276,30 350,12 398,44 386,140 332,160 280,134 258,76" opacity="0.22"/>
+    </g>
+    <!-- a couple of tiny shards -->
+    <g stroke-width="0.8" opacity="0.4">
+      <polyline points="244,104 230,138 252,160"/>
+      <polyline points="214,150 196,176 222,196"/>
+      <polyline points="252,202 232,224 256,246"/>
+    </g>
+  </g>
+</svg>

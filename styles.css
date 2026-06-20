@@ -1,0 +1,665 @@
+/* ============================================================
+   styles.css — ALL THE STYLING
+   ============================================================
+   Theme: edgy / punk / emo.
+   A dark "broken-glass and roses" board (the page background)
+   with song cards that stand out hard against it. Inspired by
+   assets/background_inspiration.png: a charcoal void framed by
+   oxblood roses, blood-red splatter, near-white glass cracks,
+   and a small hand-drawn broken heart.
+
+   The quickest way to re-theme is the variable block in :root
+   below: change a color/font there and it updates everywhere.
+   ============================================================ */
+
+/* ---- local fonts (live in the fonts/ folder) ---------------
+   Lovers Quarrel   = the big flourish used for the artist name.
+   Mathilde         = the script for song titles, the tagline,
+                      and the About heading.
+   Mathilde    	    = used for the lyrics.
+   Everything else still uses the Google Fonts loaded in the
+   <head> (Permanent Marker, Caveat, Courier Prime).            */
+@font-face {
+  font-family: 'Lovers Quarrel';
+  src: url('fonts/lovers-quarrel/LoversQuarrel-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mathilde';
+  src: url('fonts/mathilde/mathilde.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/*@font-face {
+  font-family: 'Mathilde';
+  src: url('fonts/mathilde/mathilde.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}*/ /*replace this with the actual font file */
+
+:root {
+  /* ---- palette: dark charcoal board + blood-red accents ----
+     One bold pop (crimson) plus a deeper secondary (oxblood).  */
+  --bg: #17131a;            /* page background: deep plum-black */
+  --bg-haze: #2a2230;       /* smoky lighter haze in the center */
+  --bg-edge: #0e0b11;       /* near-black used to darken the edges */
+  --text: #ece8ea;          /* cool bone / off-white text */
+  --muted: #9a909a;         /* dimmed ash-grey text */
+
+  /* the two pops of color */
+  --crimson: #b3202b;       /* THE bold pop (blood red) */
+  --oxblood: #6e2433;       /* deeper wine, the secondary accent */
+  --glass: #dfe6ea;         /* near-white, for glass-crack hairlines */
+
+  /* ---- shape + type ---- */
+  --radius: 2px;            /* cards barely round */
+  --font-name: 'Lovers Quarrel', cursive;                 /* the artist name */
+  --font-script: 'Mathilde', cursive;                     /* titles, tagline, About */
+  --font-lyrics: 'Mathilde', cursive;             	      /* SOON TO BE the lyrics (owner's hand) */
+  --font-display: 'Permanent Marker', cursive;            /* marker: section headings (About) */
+  --font-hand: 'Caveat', cursive;                         /* casual handwriting accents */
+  --font-body: 'Courier Prime', 'Courier New', monospace; /* typed body + small labels */
+  --font-mono: 'Courier Prime', 'Courier New', monospace; /* small typed labels */
+
+  /* a tiny tileable grain, drawn as an SVG (no image file needed).
+     Faint grey noise; over the dark board it reads as grit, over a
+     light card (multiply) it reads as paper fiber / photocopier dirt. */
+  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.10'/></feComponentTransfer></filter><rect width='180' height='180' filter='url(%23g)'/></svg>");
+
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+/* ------------------------------------------------------------
+   PAGE BACKGROUND — the inspiration photo
+   The artwork (roses, glass cracks, broken heart, splatter) now
+   comes straight from the real image in assets/. The photo lives
+   on a fixed, full-viewport layer (.bg-photo, just below), so the
+   body itself only needs a dark fallback color.
+   ------------------------------------------------------------ */
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: var(--bg-edge);   /* deep fallback behind the photo */
+}
+
+/* ------------------------------------------------------------
+   THE BACKGROUND PHOTO LAYER
+   A fixed, full-viewport element holding the image. It sits BEHIND
+   the content (negative z-index) and never catches clicks. Using a
+   fixed element (rather than background-attachment: fixed) keeps it
+   viewport-sized and smooth on phones too.
+
+   Scaling, in one rule: background-size: cover + position left
+   means the image always fills the screen anchored to its LEFT
+   edge. So a wide screen shows (almost) the whole 16:9 image; a
+   square screen zooms into the left side; a tall phone shows just
+   the left ~third. A faint dark scrim keeps text + cards readable
+   over the lighter parts of the photo — drop it to go brighter.
+   ------------------------------------------------------------ */
+.bg-photo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;            /* behind the page content */
+  pointer-events: none;   /* never blocks clicks */
+  background-image:
+    linear-gradient(rgba(14, 11, 17, 0.32), rgba(14, 11, 17, 0.32)),
+    url("assets/background_inspiration.webp");
+  background-position: left center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* ------------------------------------------------------------
+   CLICK INK FLECKS  (now a little spray of blood)
+   main.js drops a handful of tiny specks at every click or tap;
+   each flies out by its own --dx/--dy offset, shrinks, fades,
+   and removes itself. (Colors/sizes are set in main.js.)
+   ------------------------------------------------------------ */
+.sparkle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50% 40% 60% 45%;   /* irregular, like a fleck */
+  pointer-events: none;
+  z-index: 100;
+  animation: sparkleFly 0.7s ease-out forwards;
+}
+
+@keyframes sparkleFly {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) scale(0.2);
+  }
+}
+
+/* ---------- keyboard focus ring ---------- */
+:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(3rem, 8vw, 6rem) 1.25rem 3rem;
+  overflow: hidden;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 1.6vw, 0.78rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px dashed rgba(236, 232, 234, 0.22);
+  padding: 0.4rem 0.95rem;
+  border-radius: 2px;
+  margin: 0 0 1.7rem;
+}
+
+/* The artist name, in the Lovers Quarrel flourish. Script faces
+   read best in title case (not ALL CAPS), so text-transform is
+   off and the markup is "Lexi Robles". */
+.hero h1 {
+  font-family: var(--font-name);
+  font-weight: 400;
+  /* script needs to run big to read at a glance */
+  font-size: clamp(3.6rem, 14vw, 11rem); /*3.6rem, 14vw, 8rem is the default*/
+  letter-spacing: 0.01em;
+  line-height: 1.0;
+  margin: 0 0 0.6rem;
+  text-transform: none;
+  color: var(--text);
+  /* a soft dark halo + a faint blood glow behind the strokes */
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 34px rgba(179, 32, 43, 0.14);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* The first name gets the bold pop: crimson, no box (a rubber-stamp
+   box fights the flowing script). */
+.hero h1 .accent {
+  color: var(--crimson);
+}
+
+.tagline {
+  font-family: var(--font-script);   /* Mathilde script */
+  color: var(--muted);
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  line-height: 1.2;
+  max-width: 34ch;
+  margin: 0.6rem 0 0;
+}
+
+/* The bouncing arrow that invites scrolling */
+.scroll-hint {
+  margin-top: 2.6rem;
+  color: var(--crimson);
+  text-decoration: none;
+  font-size: 1.4rem;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+/* ============================================================
+   THE SONG GRID
+   auto-fill + minmax = the columns rearrange themselves:
+   3-ish columns on a desktop, 2 on a tablet, 1 on a phone.
+   ============================================================ */
+main {
+  max-width: 1400px; /*1200 was the default*/
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 4vw, 2rem) 4rem;
+}
+
+.lyrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr)); /*(320px, 100%) is the default*/
+  gap: clamp(1.2rem, 2.8vw, 1.9rem);
+  align-items: start;   /* an opened (tall) card won't stretch its row-mates */
+}
+
+/* ============================================================
+   ONE SONG CARD — the "cracked glass" style
+   A dark slate card with a crimson glow edge so it stands out hard
+   against the photo. Inner text reads from the --card-* variables
+   (bone on dark). Each card tilts a hair so the grid looks
+   hand-arranged.
+   ============================================================ */
+.song-card {
+  /* inner-content theming hooks */
+  --card-ink: #f7a8b7;/*#ece8ea;*/             /* bone text on the dark card */
+  --card-ink-soft: #a59db0;        /* dim text (chips, dividers) */
+  --card-rule: rgba(223, 230, 234, 0.18);  /* the dashed fold lines */
+  --card-accent: var(--crimson);   /* the pop used inside the card */
+
+  position: relative;
+  color: var(--card-ink);
+  background-color: #1b1620;
+  background-image:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05), transparent 42%),
+    var(--grain);
+  background-size: auto, 180px 180px;
+  background-blend-mode: normal, overlay;
+  border: 1px solid rgba(179, 32, 43, 0.55);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(179, 32, 43, 0.15),
+    0 0 22px rgba(179, 32, 43, 0.20),
+    0 10px 22px rgba(0, 0, 0, 0.6);
+  /* each card sits at a tiny angle, like it was pinned up crooked */
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* vary the tilt so the wall of cards looks hand-arranged */
+.song-card:nth-child(3n + 1) { --rot: -0.8deg; }
+.song-card:nth-child(3n + 2) { --rot:  0.7deg; }
+.song-card:nth-child(3n)     { --rot: -0.4deg; }
+
+/* Hover (mouse) and focus-within (keyboard) lift the card and
+   brighten the crimson glow */
+.song-card:hover,
+.song-card:focus-within {
+  transform: translateY(-4px) rotate(var(--rot, 0deg));
+  box-shadow:
+    0 0 0 1px rgba(179, 32, 43, 0.28),
+    0 0 32px rgba(179, 32, 43, 0.30),
+    0 16px 28px rgba(0, 0, 0, 0.65);
+}
+
+/* An open card lies flat (straightened) so it's easy to read */
+.song-card.open { transform: rotate(0deg); }
+.song-card.open:hover { transform: rotate(0deg); }
+
+/* --- the clickable header (a real <button>) ----------------- */
+.card-toggle {
+  appearance: none;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  position: relative;
+  /* generous padding = an easy touch target, clear of torn teeth */
+  padding: 1.4rem 3.2rem 1.3rem 1.4rem;
+}
+
+/* song title — the Mathilde brush script */
+.card-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(3.0rem, 3.4vw, 2.05rem);
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  color: var(--card-ink);
+  margin: 0 0 0.4rem;
+}
+
+.card-chips {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--card-ink-soft);
+  margin: 0 0 0.55rem;
+}
+
+.card-teaser {
+  font-family: var(--font-hand);     /* the preview is in handwriting */
+  color: var(--card-ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.25;
+  margin: 0;
+  /* clamp the preview to 2 lines with "..." if it's longer */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* the + in the corner; rotates into an x when the card opens */
+.expand-icon {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--card-ink-soft);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.song-card.open .expand-icon {
+  transform: rotate(45deg);     /* + rotated 45 degrees looks like x */
+  color: var(--card-accent);    /* a crimson pop when open */
+}
+
+/* ============================================================
+   THE EXPANDING LYRICS PANEL
+   The trick: a CSS grid row animating between 0fr (closed) and
+   1fr (open). This lets the height animate smoothly with no JS
+   measuring anything.
+   ============================================================ */
+.lyrics-panel {
+  display: grid;
+  grid-template-rows: 0fr;            /* closed */
+  transition: grid-template-rows 0.35s ease;
+}
+
+.song-card.open .lyrics-panel {
+  grid-template-rows: 1fr;            /* open */
+}
+
+.lyrics-panel-inner {
+  min-height: 0;       /* required for the 0fr trick to work */
+  overflow: hidden;
+}
+
+.lyrics-text {
+  display: block;
+  padding: 0.4rem 1.4rem 1.5rem;
+  border-top: 1px dashed var(--card-rule);
+}
+
+/* every line of lyrics is its own span (made by main.js), in the
+   owner's own handwriting (size + leading are hand-tuned). */
+.lyric-line {
+  display: block;
+  font-family: var(--font-lyrics);
+  font-size: 2.5rem;
+  line-height: 0.75;
+  color: var(--card-ink);
+  max-width: max-content; /*30ch;*/
+  overflow-wrap: break-word;  /* never cause horizontal scroll */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 200;
+}
+
+/* the visual gap where the song file had a blank line */
+.lyric-gap { height: 0.35em; }
+
+/* [Verse 1], [Chorus], ... markers — kept in the typed mono so
+   they stay legible and contrast with the script lyrics */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--card-ink-soft);
+  margin-top: 1.1em;
+}
+
+.lyrics-text .section-label:first-child { margin-top: 0.4em; }
+
+/* ---------- "the story behind the song" block ---------- */
+.song-story {
+  padding: 0.9rem 1.4rem 0.4rem;
+  border-top: 1px dashed var(--card-rule);
+}
+
+.story-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--card-accent);
+  margin: 0 0 0.4rem;
+}
+
+.story-text {
+  font-family: var(--font-hand);   /* the story is handwritten */
+  color: var(--card-ink-soft);
+  font-size: 1.08rem;
+  line-height: 1.3;
+  margin: 0;
+  max-width: 58ch;
+}
+
+/* ---------- the "copy link" row at the bottom of an open card --- */
+.panel-actions {
+  padding: 1rem 1.4rem 1.4rem;
+}
+
+.copy-link-btn {
+  appearance: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--card-ink);
+  background: transparent;
+  border: 1px solid var(--card-rule);
+  border-radius: 2px;
+  padding: 0.5rem 1.1rem;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.copy-link-btn:hover {
+  color: var(--card-accent);
+  border-color: var(--card-accent);
+  background: rgba(179, 32, 43, 0.10);
+}
+
+/* ---------- error card (missing file / file:// preview) -----
+   Self-contained (its own dark panel + bone text) so it reads on
+   the dark board even without a style variant. */
+.error-card {
+  background: rgba(27, 22, 32, 0.85);
+  border: 1px solid rgba(179, 32, 43, 0.5);
+  border-top: 3px solid var(--crimson);
+  color: var(--text);
+  padding: 1.2rem 1.4rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  clip-path: none;
+  filter: none;
+  grid-column: 1 / -1;     /* span the whole grid width */
+}
+
+/* ---------- noscript note ---------- */
+.noscript-note {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 1rem;
+}
+
+.noscript-note a { color: var(--crimson); }
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1rem clamp(1rem, 4vw, 2rem) 4.5rem;
+  text-align: center;
+}
+
+.about h2 {
+  /*font-family: var(--font-script);*/   /* Mathilde script */
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0 0 1.2rem;
+}
+
+/* keep the "//" in the marker font so only the word reads as script */
+.about h2 .slashes {
+  font-family: var(--font-display);
+  color: var(--crimson);
+  margin-right: 0.4rem;
+}
+
+.about-text {
+  color: var(--muted);
+  margin: 0 auto 1.8rem;
+  max-width: 54ch;
+}
+
+.social-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;          /* chips wrap nicely on phones */
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+}
+
+.social-links a {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid rgba(236, 232, 234, 0.26);
+  border-radius: 2px;
+  padding: 0.55rem 1.2rem;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.social-links a:hover {
+  border-color: var(--crimson);
+  color: var(--crimson);
+  background: rgba(179, 32, 43, 0.08);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid rgba(236, 232, 234, 0.14);
+  text-align: center;
+  padding: 2.2rem 1.25rem 2.6rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.site-footer p { margin: 0 0 0.5rem; }
+
+.site-footer .dot { color: var(--crimson); margin: 0 0.45rem; }
+
+.footer-small {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
+}
+
+/* ============================================================
+   EASTER EGG — main.js puts a "rockout" class on <body> when the
+   hero name is clicked 5 times fast. For ~1.6 seconds the name
+   shakes like it's being scrawled, the first name strobes through
+   a run of colors, and a soft dark wash pulses over the screen.
+   ============================================================ */
+.rockout .hero h1 {
+  animation: scribbleShake 0.5s steps(2, end) 3;
+}
+
+@keyframes scribbleShake {
+  0%   { transform: translate(0, 0) rotate(0); }
+  20%  { transform: translate(-3px, 2px) rotate(-1deg); }
+  40%  { transform: translate(3px, -2px) rotate(1deg); }
+  60%  { transform: translate(-2px, -2px) rotate(-1.5deg); }
+  80%  { transform: translate(2px, 2px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+/* the first name strobes through a run of colors, then lands back
+   on its normal crimson so it settles cleanly when the egg ends */
+.rockout .hero h1 .accent {
+  animation: nameFlash 1.5s linear both;
+}
+
+@keyframes nameFlash {
+  0%,  11% { color: #ff2e63; }   /* hot pink */
+  12%, 23% { color: #ffd23f; }   /* gold */
+  24%, 35% { color: #3ddc97; }   /* green */
+  36%, 47% { color: #4d9bff; }   /* blue */
+  48%, 59% { color: #c77dff; }   /* violet */
+  60%, 71% { color: #ff7b29; }   /* orange */
+  72%, 83% { color: #2ec5d3; }   /* cyan */
+  84%,100% { color: var(--crimson); }
+}
+
+/* a soft dark wash that pulses in and out (kept subtle so the
+   color-flashing name stays the star of the show) */
+.rockout::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;   /* never blocks clicks */
+  background:
+    radial-gradient(ellipse at 30% 25%, rgba(179, 32, 43, 0.14), transparent 55%),
+    radial-gradient(ellipse at 72% 70%, rgba(110, 36, 51, 0.12), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.28), transparent 70%);
+  animation: inkFlash 1.6s ease-out forwards;
+}
+
+@keyframes inkFlash {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ============================================================
+   SMALL SCREENS (phones)
+   ============================================================ */
+@media (max-width: 640px) {
+  .hero { min-height: 55vh; }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   If the visitor's device is set to "reduce motion", switch off
+   every animation — cards still open/close, just instantly.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scroll-hint { animation: none; }
+  .song-card, .lyrics-panel, .expand-icon { transition: none; }
+  /* easter egg + flecks go still too (the flecks are also skipped
+     in main.js; this is belt-and-suspenders) */
+  .rockout .hero h1, .rockout .hero h1 .accent, .rockout::before { animation: none; }
+  .rockout::before { opacity: 0; }
+  .sparkle { animation: none; opacity: 0; }
+}

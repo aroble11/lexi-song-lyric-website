@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- The viewport tag is what makes the page scale correctly on phones/tablets -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ▼▼ EDIT ME: your artist name + a one-line description (helps search engines) ▼▼ -->
+  <title>LEXI ROBLES — Lyrics</title>
+  <meta name="description" content="Original song lyrics by Lexi Robles.">
+  <!-- ▲▲ EDIT ME ▲▲ -->
+
+  <!-- Fonts: Permanent Marker (name + titles), Caveat (handwriting
+       accents), Courier Prime (typed lyric-sheet body + labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       BACKGROUND PHOTO — the inspiration image fills the screen
+       behind everything. Purely decorative (aria-hidden), sits
+       behind the content, and never catches clicks. How it scales
+       across screen sizes is set on .bg-photo in styles.css.
+       ============================================================ -->
+  <div class="bg-photo" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       HERO — the big intro section at the top of the page
+       ============================================================ -->
+  <header class="hero">
+    <p class="hero-eyebrow">LEXI'S LYRIC VAULT · ORIGINAL WORKS</p>
+
+    <!-- ▼▼ EDIT ME: your artist / display name ▼▼ -->
+    <!-- (Title case on purpose — the Lovers Quarrel script reads
+         best this way, not in ALL CAPS.) -->
+    <h1><span class="accent">Lexi</span> Robles</h1>
+    <!-- ▲▲ EDIT ME ▲▲ -->
+
+    <!-- ▼▼ EDIT ME: a one-line tagline that sounds like you ▼▼ -->
+    <p class="tagline">Writing song lyrics since 2007. <br>Tap a card to read the whole thing.</p>
+    <!-- ▲▲ EDIT ME ▲▲ -->
+
+    <a class="scroll-hint" href="#songs" aria-label="Scroll down to the songs">▼</a>
+  </header>
+
+  <!-- ============================================================
+       SONGS — main.js fills this grid with one card per song.
+       You never edit this part by hand; add songs in songs.js
+       and the songs/ folder instead (see README).
+       ============================================================ -->
+  <main id="songs" aria-label="Song lyrics">
+    <div id="lyrics-grid" class="lyrics-grid">
+      <!-- Cards are inserted here by main.js -->
+    </div>
+
+    <!-- Shown only if the visitor has JavaScript turned off -->
+    <noscript>
+      <p class="noscript-note">
+        This page needs JavaScript to display the lyric cards.
+        You can still read every song as plain text in the
+        <a href="songs/">songs folder</a>.
+      </p>
+    </noscript>
+  </main>
+
+  <!-- ============================================================
+       ABOUT — who you are and how to reach you
+       ============================================================ -->
+  <section class="about" id="about" aria-label="About the writer">
+    <h2><span class="slashes">//</span> ABOUT</h2>
+
+    <!-- ▼▼ EDIT ME: a short bio — who you are, what you write about,
+         and what you're hoping for (a band? collaborators? listeners?) ▼▼ -->
+    <p class="about-text">
+      This website is a collection of my original song lyrics. I write about
+      the complexities of human relationships and the emotions that come with them. 
+      If something here hits, or you want to put music to it, reach out.
+    </p>
+    <!-- ▲▲ EDIT ME ▲▲ -->
+
+    <!-- ▼▼ EDIT ME: swap each "#" for your real link, and delete any
+         entries you don't use. For email, the link looks like:
+         href="mailto:you@example.com" ▼▼ -->
+    <ul class="social-links">
+      <li><a href="#">Instagram: COMING SOON</a></li>
+      <li><a href="#">TikTok: COMING SOON</a></li>
+      <li><a href="#">YouTube: COMING SOON</a></li>
+      <li><a href="#">Email: COMING SOON</a></li>
+    </ul>
+    <!-- ▲▲ EDIT ME ▲▲ -->
+  </section>
+
+  <!-- ============================================================
+       FOOTER — the copyright line
+       ============================================================ -->
+  <footer class="site-footer">
+    <!-- ▼▼ EDIT ME: your name ▼▼ -->
+    <p>&copy; 2026 LEXI ROBLES <span class="dot">·</span> All rights reserved</p>
+    <!-- ▲▲ EDIT ME ▲▲ -->
+    <p class="footer-small">All lyrics on this site are original works. Do not reproduce without permission.</p>
+    <p class="footer-small">Fonts: <a href="https://www.1001fonts.com/lovers-quarrel-font.html" target="_blank" rel="noopener">Lovers Quarrel</a> by Laura Worthington, licensed under <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a> &middot; <a href="https://www.1001fonts.com/mathilde-font.html" target="_blank" rel="noopener">Mathilde</a> by CloutierFontes, licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+  </footer>
+
+  <!-- songs.js lists WHICH songs to show; main.js does the loading and building -->
+  <script src="songs.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
