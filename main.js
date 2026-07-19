@@ -61,6 +61,17 @@ function parseSong(rawText, filename) {
     header[key] = value;
   }
 
+  // SAFETY NET: if none of the recognized keys (Title/Year/Status/
+  // Story) showed up, this file probably has no header at all —
+  // e.g. lyrics pasted straight in without the Title: block. In
+  // that case the "header" we split off was really the first
+  // stanza, so treat the WHOLE file as lyrics rather than letting
+  // that stanza silently disappear.
+  const hasRealHeader = ["title", "year", "status", "story"].some(
+    (key) => key in header
+  );
+  const lyricsText = hasRealHeader ? lyricsPart : text;
+
   return {
     // If there's no Title: line, fall back to the filename so
     // the card is never blank.
@@ -74,7 +85,7 @@ function parseSong(rawText, filename) {
     // yoursite.com/#example-song-one — it's the filename without
     // ".txt" and without the "01-" number prefix.
     slug: filename.replace(/\.txt$/, "").replace(/^\d+-/, ""),
-    lyrics: lyricsPart.trim(),
+    lyrics: lyricsText.trim(),
   };
 }
 
@@ -347,6 +358,18 @@ async function loadAllSongs() {
   let anyFailed = false;
   results.forEach((result, index) => {
     if (result.ok) {
+      // Make sure the card's id is unique on the page. Two files
+      // like 01-fire.txt and 08-fire.txt would otherwise both
+      // become #fire (breaking one card's share link), and a song
+      // slugged "about" or "songs" would collide with the page's
+      // own sections. First one keeps the name; later ones get
+      // -2, -3, ... so every card stays openable and shareable.
+      const baseSlug = result.song.slug;
+      let n = 2;
+      while (document.getElementById(result.song.slug)) {
+        result.song.slug = baseSlug + "-" + n;
+        n++;
+      }
       grid.appendChild(buildCard(result.song, index));
     } else {
       anyFailed = true;
@@ -490,6 +513,11 @@ function setUpSparkles() {
       document.body.appendChild(fleck);
       // Self-cleanup: remove the span once its animation is done.
       fleck.addEventListener("animationend", () => fleck.remove());
+      // Belt-and-suspenders: if the animation never finishes (its
+      // "animationend" never fires in some corner cases, e.g. a
+      // hidden tab), remove the fleck anyway. Removing an already-
+      // removed element is harmless.
+      setTimeout(() => fleck.remove(), 2000);
     }
   });
 }
@@ -506,6 +534,7 @@ function setUpEasterEgg() {
 
   let clickCount = 0;
   let resetTimer;
+  let rockoutTimer;
 
   heroTitle.addEventListener("click", () => {
     clickCount++;
@@ -518,8 +547,13 @@ function setUpEasterEgg() {
       clickCount = 0;
       document.body.classList.add("rockout");
       // The glitch lasts about a second and a half, then the
-      // class comes off so it can be triggered again.
-      setTimeout(() => document.body.classList.remove("rockout"), 1600);
+      // class comes off so it can be triggered again. (Clearing
+      // the old timer first means re-triggering mid-glitch can't
+      // cut the new run short.)
+      clearTimeout(rockoutTimer);
+      rockoutTimer = setTimeout(
+        () => document.body.classList.remove("rockout"), 1600
+      );
     }
   });
 }

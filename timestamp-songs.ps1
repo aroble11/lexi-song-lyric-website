@@ -183,11 +183,19 @@ try {
 
     # -------------------------------------------------------------
     # STEP 3: read the song list out of songs.js.
-    # We just pick out every "something.txt" between quotes - the
-    # same names the website itself uses.
+    # We pick out every "something.txt" between quotes - the same
+    # names the website itself uses - but skip commented-out lines,
+    # so a song disabled with // (or a filename that only appears
+    # in a comment) never gets stamped by mistake.
     # -------------------------------------------------------------
-    $songsJs = Get-Content "songs.js" -Raw
-    $songFiles = [regex]::Matches($songsJs, '"([^"]+\.txt)"') | ForEach-Object { $_.Groups[1].Value }
+    $songFiles = @()
+    foreach ($line in (Get-Content "songs.js")) {
+        $trimmed = $line.Trim()
+        if ($trimmed -match '^(//|\*|/\*)') { continue }
+        foreach ($m in [regex]::Matches($trimmed, '"([^"]+\.txt)"')) {
+            $songFiles += $m.Groups[1].Value
+        }
+    }
 
     if ($songFiles.Count -eq 0) {
         Write-Host "No songs found in songs.js - nothing to stamp." -ForegroundColor Yellow
@@ -238,8 +246,14 @@ try {
 
             # -Restamp: keep the old token (proof of the old version)
             # under a dated name, then stamp the current version.
-            $archiveName = [System.IO.Path]::GetFileNameWithoutExtension($tokenName) +
-                           ".superseded-" + (Get-Date -Format "yyyy-MM-dd") + ".tsr"
+            # If the same song is re-stamped twice in one day, the
+            # second archive gets the time added so it can never
+            # collide with (and abort on) the first.
+            $archiveBase = [System.IO.Path]::GetFileNameWithoutExtension($tokenName)
+            $archiveName = $archiveBase + ".superseded-" + (Get-Date -Format "yyyy-MM-dd") + ".tsr"
+            if (Test-Path "timestamps\$archiveName") {
+                $archiveName = $archiveBase + ".superseded-" + (Get-Date -Format "yyyy-MM-dd-HHmmss") + ".tsr"
+            }
             Move-Item $tokenPath "timestamps\$archiveName"
             Write-Host "[ARCHIVE] kept old proof as timestamps/$archiveName" -ForegroundColor DarkGray
         }

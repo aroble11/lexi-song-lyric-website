@@ -15,8 +15,7 @@
 /* ---- local fonts (live in the fonts/ folder) ---------------
    Lovers Quarrel   = the big flourish used for the artist name.
    Mathilde         = the script for song titles, the tagline,
-                      and the About heading.
-   Mathilde    	    = used for the lyrics.
+                      the About heading, and the lyrics.
    Everything else still uses the Google Fonts loaded in the
    <head> (Permanent Marker, Caveat, Courier Prime).            */
 @font-face {
@@ -33,14 +32,6 @@
   font-style: normal;
   font-display: swap;
 }
-/*@font-face {
-  font-family: 'Mathilde';
-  src: url('fonts/mathilde/mathilde.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}*/ /*replace this with the actual font file */
-
 :root {
   /* ---- palette: dark charcoal board + blood-red accents ----
      One bold pop (crimson) plus a deeper secondary (oxblood).  */
@@ -255,7 +246,7 @@ main {
    ============================================================ */
 .song-card {
   /* inner-content theming hooks */
-  --card-ink: #f7a8b7;/*#ece8ea;*/             /* bone text on the dark card */
+  --card-ink: #f7a8b7;             /* soft pink text on the dark card */
   --card-ink-soft: #a59db0;        /* dim text (chips, dividers) */
   --card-rule: rgba(223, 230, 234, 0.18);  /* the dashed fold lines */
   --card-accent: var(--crimson);   /* the pop used inside the card */
@@ -494,8 +485,6 @@ main {
   padding: 1.2rem 1.4rem;
   font-family: var(--font-body);
   font-size: 0.95rem;
-  clip-path: none;
-  filter: none;
   grid-column: 1 / -1;     /* span the whole grid width */
 }
 
