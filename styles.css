@@ -399,7 +399,10 @@ main {
   display: block;
   font-family: var(--font-lyrics);
   font-size: 2.5rem;
-  line-height: 0.75;
+  /* Tight handwritten leading — but not TOO tight: below ~1.05 the
+     tall Mathilde ascenders/descenders collide whenever a long line
+     wraps (which most do on phones), making lyrics hard to read. */
+  line-height: 1.05;
   color: var(--card-ink);
   max-width: max-content; /*30ch;*/
   overflow-wrap: break-word;  /* never cause horizontal scroll */

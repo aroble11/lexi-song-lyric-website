@@ -363,7 +363,23 @@ async function loadAllSongs() {
       target
         .querySelector(".card-toggle")
         .setAttribute("aria-expanded", "true");
-      target.scrollIntoView({ block: "start" });
+
+      // TIMING GOTCHA: the cards don't exist yet when the browser
+      // does its own scroll-to-#fragment during page load, so that
+      // native scroll finds nothing — and a scroll started too early
+      // can be cancelled by the browser's final scroll pass when the
+      // page finishes loading. So: wait for the full "load" event,
+      // then jump. "instant" (not the page's smooth-scroll CSS)
+      // because a smooth glide can also be interrupted — e.g. it
+      // never even starts in a background tab.
+      const jumpToCard = () => {
+        target.scrollIntoView({ block: "start", behavior: "instant" });
+      };
+      if (document.readyState === "complete") {
+        jumpToCard();
+      } else {
+        window.addEventListener("load", jumpToCard);
+      }
     }
   }
 }
