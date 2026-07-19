@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- ==========================================================
+       favicon.svg - the browser-tab icon
+       The hand-drawn broken heart (from heart-broken.svg) on the
+       site's dark plum board, so it reads on light AND dark tab
+       bars. favicon.png is a rasterized copy for browsers that
+       don't take SVG icons (Safari).
+       ========================================================== -->
+  <rect width="128" height="128" rx="26" fill="#17131a"/>
+  <g transform="translate(4,4)">
+    <g stroke="#e6dfe2" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+      <!-- left half -->
+      <path d="M58,30 C 56,20 43,13 31,22 C 14,34 20,63 56,90 L60,78 L53,66 L61,53 L52,41 L58,30 Z"
+            fill="#e6dfe2" fill-opacity="0.08" transform="translate(-3,0) rotate(-3 50 60)"/>
+      <!-- right half -->
+      <path d="M64,30 C 66,20 79,13 91,22 C 108,34 102,63 66,90 L62,78 L69,66 L61,53 L70,41 L64,30 Z"
+            fill="#e6dfe2" fill-opacity="0.08" transform="translate(4,1) rotate(4 70 60)"/>
+    </g>
+    <!-- sketch ticks -->
+    <g stroke="#e6dfe2" stroke-width="2.4" stroke-linecap="round" opacity="0.5">
+      <path d="M40,16 L46,22"/>
+      <path d="M84,16 L78,22"/>
+      <path d="M50,98 L54,104"/>
+    </g>
+  </g>
+</svg>
