@@ -241,9 +241,9 @@ function buildCard(song, index) {
       setTimeout(() => { copyBtn.textContent = copyLabel; }, 2000);
     };
 
-    navigator.clipboard.writeText(link).then(showCopied).catch(() => {
-      // Older or locked-down browsers: fall back to the classic
-      // invisible-textbox copy trick.
+    // The classic invisible-textbox copy trick, for browsers where
+    // the modern Clipboard API is missing or blocked.
+    const copyFallback = () => {
       const tmp = document.createElement("textarea");
       tmp.value = link;
       document.body.appendChild(tmp);
@@ -251,7 +251,17 @@ function buildCard(song, index) {
       document.execCommand("copy");
       tmp.remove();
       showCopied();
-    });
+    };
+
+    // navigator.clipboard only exists on secure pages (HTTPS or
+    // localhost). Reaching for .writeText without checking first
+    // would throw on a plain-HTTP page — before the .catch could
+    // save us — and the button would silently do nothing.
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).then(showCopied).catch(copyFallback);
+    } else {
+      copyFallback();
+    }
   });
 
   actions.appendChild(copyBtn);
@@ -299,6 +309,20 @@ function buildCard(song, index) {
    ------------------------------------------------------------ */
 async function loadAllSongs() {
   const grid = document.getElementById("lyrics-grid");
+
+  // If songs.js didn't load or has a syntax error (the easiest
+  // mistake to make while editing the list), the SONGS list won't
+  // exist. Say so on the page instead of showing a blank grid.
+  if (typeof SONGS === "undefined" || !Array.isArray(SONGS)) {
+    const errCard = document.createElement("article");
+    errCard.className = "song-card error-card";
+    errCard.textContent =
+      "Couldn't read the song list. Open songs.js and check for a " +
+      "typo — every line in the list needs quotes around the " +
+      "filename and a comma after it.";
+    grid.appendChild(errCard);
+    return;
+  }
 
   // Download all song files at the same time (faster than one
   // by one). Promise.all keeps the results in the same order
@@ -355,7 +379,14 @@ async function loadAllSongs() {
   // If the page was opened through a song share link (an address
   // ending in #some-song), find that card, open it, and scroll
   // straight to it.
-  const requested = decodeURIComponent(window.location.hash.slice(1));
+  // (A mangled link like #% would make decodeURIComponent throw,
+  // so anything undecodable just counts as "no song requested".)
+  let requested = "";
+  try {
+    requested = decodeURIComponent(window.location.hash.slice(1));
+  } catch (err) {
+    requested = "";
+  }
   if (requested) {
     const target = document.getElementById(requested);
     if (target && target.classList.contains("song-card")) {

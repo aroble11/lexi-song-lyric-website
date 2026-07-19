@@ -320,7 +320,12 @@ main {
 .card-title {
   font-family: var(--font-script);
   font-weight: 400;
-  font-size: clamp(3.0rem, 3.4vw, 2.05rem);
+  /* Plain 3rem on purpose: this used to be clamp(3.0rem, 3.4vw,
+     2.05rem), but a clamp() whose minimum is bigger than its
+     maximum always resolves to the minimum — so it rendered as a
+     fixed 3rem everywhere anyway. This just says so honestly.
+     (Verified: long titles still fit on a 375px phone.) */
+  font-size: 3rem;
   letter-spacing: 0.01em;
   line-height: 1.05;
   color: var(--card-ink);
