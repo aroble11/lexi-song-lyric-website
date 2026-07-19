@@ -1,0 +1,11 @@
+# Claude Code local workspace config (dev-only, machine-specific)
+.claude/
+
+# Source material kept locally — the site uses the compressed .webp copy,
+# and this 2.4MB original would bloat the repo forever if committed.
+assets/background_inspiration.png
+
+# Old demo songs from the template days, superseded by the real songs.
+# Kept on disk for reference; safe to delete outright.
+songs/01-example-song-one.txt
+songs/02-example-song-two.txt
