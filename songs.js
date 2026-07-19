@@ -20,6 +20,7 @@
    page only cares about the order of this list.
    ============================================================ */
 
+/* ★ TWEAK: SONG LIST — add, remove, or reorder lines here. */
 const SONGS = [
   "01-monsters.txt",
   "02-i-was-your-moon.txt",

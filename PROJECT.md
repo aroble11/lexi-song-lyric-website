@@ -90,6 +90,9 @@ lexi-song-lyric-website/      ← THIS folder is the git repo (not its parent!)
 │   └── *.tsr                ← one proof token per song (all 7 stamped 2026-06-20)
 ├── timestamp-songs.ps1      ← PowerShell helper: stamps songs via OpenSSL + FreeTSA
 ├── .claude/launch.json      ← dev-only: preview server (python http.server, port 8742)
+├── EDITING.md               ← owner-facing "where do I edit X" directory; the code's
+│                              ★ TWEAK / EDIT ME markers are indexed there — keep both
+│                              in sync when adding features
 ├── README.md                ← user-facing how-to (add songs, deploy, prove ownership)
 └── PROJECT.md               ← this file
 ```

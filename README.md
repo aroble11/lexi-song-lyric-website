@@ -4,16 +4,22 @@ A single-page showcase for original song lyrics. Plain HTML/CSS with a small amo
 commented JavaScript — no build tools, no frameworks. Songs live as plain text files;
 the page turns them into clickable cards that expand in place.
 
+> **Want to change something?** See **[EDITING.md](EDITING.md)** — it maps every
+> kind of change (card size, colors, links, songs…) to the exact file and the
+> exact search term that jumps you to the right spot.
+
 ```
-lyrics-site/
-├── index.html          ← the page (hero, grid, footer)
+lexi-song-lyric-website/
+├── index.html          ← the page (hero, grid, About, footer)
 ├── styles.css          ← all styling; re-theme via the variables at the top
 ├── main.js             ← loads the songs and builds the cards (commented)
 ├── songs.js            ← ★ THE LIST: which songs appear, in what order
 ├── songs/              ← ★ THE LYRICS: one plain-text file per song
-├── assets/starfield.svg← the tiled star background
+├── assets/             ← background photo, share-preview card, favicon
+├── fonts/              ← the two local fonts (Lovers Quarrel, Mathilde)
 ├── timestamps/         ← proof-of-date tokens (see "Proving ownership")
 ├── timestamp-songs.ps1 ← script that creates those tokens
+├── EDITING.md          ← where-to-edit guide for every part of the site
 └── README.md           ← this file
 ```
 

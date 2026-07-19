@@ -176,8 +176,9 @@ function buildCard(song, index) {
     toggle.appendChild(chips);
   }
 
-  // The teaser: the first 2 real lyric lines (skipping blanks
-  // and [Section] markers), faded out, as a preview.
+  // ★ TWEAK: TEASER — the closed card previews the first 2 real
+  // lyric lines (skipping blanks and [Section] markers). Change
+  // the 2 in slice(0, 2) below to preview more or fewer lines.
   const teaserLines = song.lyrics
     .split("\n")
     .map((l) => l.trim())
@@ -237,6 +238,7 @@ function buildCard(song, index) {
 
   const copyBtn = document.createElement("button");
   copyBtn.className = "copy-link-btn";
+  // ★ TWEAK: BUTTON TEXT — the copy-link button's label.
   const copyLabel = "⧉ copy link to this song";
   copyBtn.textContent = copyLabel;
 
@@ -283,8 +285,10 @@ function buildCard(song, index) {
 
   // --- open/close behavior ----------------------------------
   toggle.addEventListener("click", () => {
-    // Only one card may be open at a time: before toggling this
-    // one, collapse any OTHER card that's currently expanded.
+    // ★ TWEAK: ONE-AT-A-TIME — only one card may be open at a time:
+    // before toggling this one, collapse any OTHER card that's
+    // currently expanded. (Delete this forEach block if you'd
+    // rather let several cards stay open at once.)
     document.querySelectorAll(".song-card.open").forEach((openCard) => {
       if (openCard !== card) {
         openCard.classList.remove("open");
@@ -475,6 +479,9 @@ function setUpCursorGlow() {
    speck of stamp-red or ochre.)
    ------------------------------------------------------------ */
 function setUpSparkles() {
+  // ★ TWEAK: INK FLECKS — how many specks fly out per click, and
+  // the colors they can be. (To turn flecks off entirely, delete
+  // the setUpSparkles() line at the bottom of this file.)
   const FLECK_COUNT = 8;
   // A little spray of blood: mostly crimson/oxblood, with the
   // occasional darker drop and a pale glass speck.
@@ -532,6 +539,10 @@ function setUpEasterEgg() {
   const heroTitle = document.querySelector(".hero h1");
   if (!heroTitle) return;
 
+  // ★ TWEAK: EASTER EGG — 5 clicks within 1.5s (1500ms) triggers
+  // it; the glitch lasts 1.6s (1600ms). Change those numbers
+  // below, or delete the setUpEasterEgg() line at the bottom of
+  // this file to remove the egg.
   let clickCount = 0;
   let resetTimer;
   let rockoutTimer;

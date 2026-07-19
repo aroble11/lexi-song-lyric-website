@@ -33,6 +33,8 @@
   font-display: swap;
 }
 :root {
+  /* ★ TWEAK: COLORS — every color on the site lives in this block.
+     Change a value here and it updates everywhere it's used. */
   /* ---- palette: dark charcoal board + blood-red accents ----
      One bold pop (crimson) plus a deeper secondary (oxblood).  */
   --bg: #17131a;            /* page background: deep plum-black */
@@ -46,6 +48,9 @@
   --oxblood: #6e2433;       /* deeper wine, the secondary accent */
   --glass: #dfe6ea;         /* near-white, for glass-crack hairlines */
 
+  /* ★ TWEAK: FONTS — which font each part of the site uses. The
+     two local fonts are loaded by the @font-face blocks above;
+     the Google fonts are loaded in index.html's <head>. */
   /* ---- shape + type ---- */
   --radius: 2px;            /* cards barely round */
   --font-name: 'Lovers Quarrel', cursive;                 /* the artist name */
@@ -97,6 +102,9 @@ body {
    the left ~third. A faint dark scrim keeps text + cards readable
    over the lighter parts of the photo — drop it to go brighter.
    ------------------------------------------------------------ */
+/* ★ TWEAK: BACKGROUND PHOTO — swap the url(...) below to change the
+   picture. The rgba(...) line above it is the dark "scrim" laid over
+   the photo: raise the 0.32 numbers to darken it, lower to brighten. */
 .bg-photo {
   position: fixed;
   inset: 0;
@@ -171,9 +179,11 @@ body {
   margin: 0 0 1.7rem;
 }
 
-/* The artist name, in the Lovers Quarrel flourish. Script faces
-   read best in title case (not ALL CAPS), so text-transform is
-   off and the markup is "Lexi Robles". */
+/* ★ TWEAK: NAME SIZE — the font-size clamp() below is how big the
+   artist name renders: clamp(smallest, fluid, biggest).
+   The name is in the Lovers Quarrel flourish. Script faces read
+   best in title case (not ALL CAPS), so text-transform is off and
+   the markup is "Lexi Robles". */
 .hero h1 {
   font-family: var(--font-name);
   font-weight: 400;
@@ -224,12 +234,17 @@ body {
    auto-fill + minmax = the columns rearrange themselves:
    3-ish columns on a desktop, 2 on a tablet, 1 on a phone.
    ============================================================ */
+/* ★ TWEAK: PAGE WIDTH — how wide the song-grid area can get before
+   it stops growing and centers itself. */
 main {
   max-width: 1400px; /*1200 was the default*/
   margin: 0 auto;
   padding: 1rem clamp(1rem, 4vw, 2rem) 4rem;
 }
 
+/* ★ TWEAK: CARD SIZE — the 350px below is the minimum card width:
+   make it smaller for more columns, bigger for fewer, wider cards.
+   The gap line is the space between cards. */
 .lyrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr)); /*(320px, 100%) is the default*/
@@ -244,6 +259,8 @@ main {
    (bone on dark). Each card tilts a hair so the grid looks
    hand-arranged.
    ============================================================ */
+/* ★ TWEAK: CARD LOOK — the card's text colors (--card-* just below),
+   background color, crimson border, and glow (box-shadow). */
 .song-card {
   /* inner-content theming hooks */
   --card-ink: #f7a8b7;             /* soft pink text on the dark card */
@@ -271,7 +288,8 @@ main {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* vary the tilt so the wall of cards looks hand-arranged */
+/* ★ TWEAK: CARD TILT — vary the tilt so the wall of cards looks
+   hand-arranged; set all three to 0deg for perfectly straight. */
 .song-card:nth-child(3n + 1) { --rot: -0.8deg; }
 .song-card:nth-child(3n + 2) { --rot:  0.7deg; }
 .song-card:nth-child(3n)     { --rot: -0.4deg; }
@@ -307,7 +325,7 @@ main {
   padding: 1.4rem 3.2rem 1.3rem 1.4rem;
 }
 
-/* song title — the Mathilde brush script */
+/* ★ TWEAK: TITLE SIZE — the song title, in the Mathilde brush script */
 .card-title {
   font-family: var(--font-script);
   font-weight: 400;
@@ -368,6 +386,8 @@ main {
    1fr (open). This lets the height animate smoothly with no JS
    measuring anything.
    ============================================================ */
+/* ★ TWEAK: OPEN/CLOSE SPEED — the 0.35s below is how long a card
+   takes to expand or collapse. */
 .lyrics-panel {
   display: grid;
   grid-template-rows: 0fr;            /* closed */
@@ -389,8 +409,9 @@ main {
   border-top: 1px dashed var(--card-rule);
 }
 
-/* every line of lyrics is its own span (made by main.js), in the
-   owner's own handwriting (size + leading are hand-tuned). */
+/* ★ TWEAK: LYRICS SIZE — every line of lyrics is its own span (made
+   by main.js). font-size is how big the handwriting is; line-height
+   is the space between lines (keep it 1.05 or higher!). */
 .lyric-line {
   display: block;
   font-family: var(--font-lyrics);
