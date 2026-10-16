@@ -1,22 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
-  <!-- ==========================================================
-       heart-broken.svg  (hand-drawn broken heart)
-       Two heart halves pulled apart down a jagged crack, drawn in
-       a rough bone-white line like a sketch. Faint fill so it
-       reads as a drawing, not a solid shape.
-       ========================================================== -->
-  <g stroke="#e6dfe2" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-    <!-- left half -->
-    <path d="M58,30 C 56,20 43,13 31,22 C 14,34 20,63 56,90 L60,78 L53,66 L61,53 L52,41 L58,30 Z"
-          fill="#e6dfe2" fill-opacity="0.06" transform="translate(-3,0) rotate(-3 50 60)"/>
-    <!-- right half -->
-    <path d="M64,30 C 66,20 79,13 91,22 C 108,34 102,63 66,90 L62,78 L69,66 L61,53 L70,41 L64,30 Z"
-          fill="#e6dfe2" fill-opacity="0.06" transform="translate(4,1) rotate(4 70 60)"/>
-  </g>
-  <!-- a few sketch ticks for the hand-drawn feel -->
-  <g stroke="#e6dfe2" stroke-width="1.6" stroke-linecap="round" opacity="0.5">
-    <path d="M40,16 L46,22"/>
-    <path d="M84,16 L78,22"/>
-    <path d="M50,98 L54,104"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" fill="none">
+  <!-- Fine red pen outline: two asymmetric halves and an open lightning crack. -->
+  <g stroke="#963f36" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M43 30 C32 10 15 6 12 24 C8 42 28 64 42 84 L47 68 L36 54 L45 42 L38 34 Z"/>
+    <path d="M59 29 C68 7 88 7 89 23 C91 41 72 68 54 92 L61 70 L53 56 L63 42 L55 34 Z"/>
   </g>
 </svg>

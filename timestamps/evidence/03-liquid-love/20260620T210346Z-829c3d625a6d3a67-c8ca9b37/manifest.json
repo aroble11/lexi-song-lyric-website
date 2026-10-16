@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "03-liquid-love.txt",
+    "title":  "Liquid Love",
+    "timestampUtc":  "2026-06-20T21:03:46Z",
+    "packagedUtc":  "2026-10-16T00:40:29.4933240+00:00",
+    "files":  {
+                  "lyrics.txt":  "829c3d625a6d3a67e536e190b9ef7ea0a21890dacc6bbec4b706fbafc7deb23d",
+                  "proof.tsr":  "c8ca9b37feaaa1db1d657eb6b1020d04212d5f369663d4d5083e4b2262b879ca",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "05-unrequited-love.txt",
+    "title":  "Unrequited Love",
+    "timestampUtc":  "2026-06-20T21:03:47Z",
+    "packagedUtc":  "2026-10-16T00:40:30.4773867+00:00",
+    "files":  {
+                  "lyrics.txt":  "b0616852079c0bd9a335dd87e88b9a09038a5b51ecb3a3d02e5ceb9d45353386",
+                  "proof.tsr":  "5e7fa05d7df1b65a5e0dc43e6270a300025d9f2f7148e61f6ddaae29ddb7fb1e",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

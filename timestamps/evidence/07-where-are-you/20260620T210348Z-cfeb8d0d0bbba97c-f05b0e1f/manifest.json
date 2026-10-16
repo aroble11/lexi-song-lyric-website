@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "07-where-are-you.txt",
+    "title":  "Where Are You?",
+    "timestampUtc":  "2026-06-20T21:03:48Z",
+    "packagedUtc":  "2026-10-16T00:40:31.2996957+00:00",
+    "files":  {
+                  "lyrics.txt":  "cfeb8d0d0bbba97cb09bebd710bd3a7cc1f636f19301d26b5823cdafb316039d",
+                  "proof.tsr":  "f05b0e1f2bc9080c5a3b12eb006e128954e4a5277728d004c4f2a00a5abd6b56",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

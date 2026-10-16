@@ -1,683 +1,1086 @@
-/* ============================================================
-   styles.css — ALL THE STYLING
-   ============================================================
-   Theme: edgy / punk / emo.
-   A dark "broken-glass and roses" board (the page background)
-   with song cards that stand out hard against it. Inspired by
-   assets/background_inspiration.png: a charcoal void framed by
-   oxblood roses, blood-red splatter, near-white glass cracks,
-   and a small hand-drawn broken heart.
-
-   The quickest way to re-theme is the variable block in :root
-   below: change a color/font there and it updates everywhere.
-   ============================================================ */
-
-/* ---- local fonts (live in the fonts/ folder) ---------------
-   Lovers Quarrel   = the big flourish used for the artist name.
-   Mathilde         = the script for song titles, the tagline,
-                      the About heading, and the lyrics.
-   Everything else still uses the Google Fonts loaded in the
-   <head> (Permanent Marker, Caveat, Courier Prime).            */
+/* Custom notebook title lettering; editable source lives beside the font files. */
 @font-face {
-  font-family: 'Lovers Quarrel';
-  src: url('fonts/lovers-quarrel/LoversQuarrel-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-family:'Lexi Notebook';
+  src:url('fonts/lexi-notebook/LexiNotebook-Regular.woff2') format('woff2');
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
 }
 @font-face {
-  font-family: 'Mathilde';
-  src: url('fonts/mathilde/mathilde.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-family:'Lexi Notebook';
+  src:url('fonts/lexi-notebook/LexiNotebook-Bold.woff2') format('woff2');
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
 }
+@font-face {
+  font-family:'Pinyon Script';
+  src:url('fonts/pinyonscript/PinyonScript-Regular.ttf') format('truetype');
+  font-display:swap;
+}
+@font-face {
+  font-family:'The Nautigal';
+  src:url('fonts/thenautigal/TheNautigal-Regular.ttf') format('truetype');
+  font-weight:400;
+  font-display:swap;
+}
+@font-face {
+  font-family:'The Nautigal';
+  src:url('fonts/thenautigal/TheNautigal-Bold.ttf') format('truetype');
+  font-weight:700;
+  font-display:swap;
+}
+
+/* Personal lyric notebook. Change these variables to adjust the whole theme. */
+@font-face {
+  font-family:'Lovers Quarrel';
+  src:url('fonts/lovers-quarrel/LoversQuarrel-Regular.ttf') format('truetype');
+  font-display:swap;
+}
+
+@font-face {
+  font-family:Mathilde;
+  src:url('fonts/mathilde/mathilde.otf') format('opentype');
+  font-display:swap;
+}
+
 :root {
-  /* ★ TWEAK: COLORS — every color on the site lives in this block.
-     Change a value here and it updates everywhere it's used. */
-  /* ---- palette: dark charcoal board + blood-red accents ----
-     One bold pop (crimson) plus a deeper secondary (oxblood).  */
-  --bg: #17131a;            /* page background: deep plum-black */
-  --bg-haze: #2a2230;       /* smoky lighter haze in the center */
-  --bg-edge: #0e0b11;       /* near-black used to darken the edges */
-  --text: #ece8ea;          /* cool bone / off-white text */
-  --muted: #9a909a;         /* dimmed ash-grey text */
-
-  /* the two pops of color */
-  --crimson: #b3202b;       /* THE bold pop (blood red) */
-  --oxblood: #6e2433;       /* deeper wine, the secondary accent */
-  --glass: #dfe6ea;         /* near-white, for glass-crack hairlines */
-
-  /* ★ TWEAK: FONTS — which font each part of the site uses. The
-     two local fonts are loaded by the @font-face blocks above;
-     the Google fonts are loaded in index.html's <head>. */
-  /* ---- shape + type ---- */
-  --radius: 2px;            /* cards barely round */
-  --font-name: 'Lovers Quarrel', cursive;                 /* the artist name */
-  --font-script: 'Mathilde', cursive;                     /* titles, tagline, About */
-  --font-lyrics: 'Mathilde', cursive;             	      /* SOON TO BE the lyrics (owner's hand) */
-  --font-display: 'Permanent Marker', cursive;            /* marker: section headings (About) */
-  --font-hand: 'Caveat', cursive;                         /* casual handwriting accents */
-  --font-body: 'Courier Prime', 'Courier New', monospace; /* typed body + small labels */
-  --font-mono: 'Courier Prime', 'Courier New', monospace; /* small typed labels */
-
-  /* a tiny tileable grain, drawn as an SVG (no image file needed).
-     Faint grey noise; over the dark board it reads as grit, over a
-     light card (multiply) it reads as paper fiber / photocopier dirt. */
-  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.10'/></feComponentTransfer></filter><rect width='180' height='180' filter='url(%23g)'/></svg>");
-
+  /* ★ TWEAK: COLORS */
+  --bg:#111313;
+  --text:#ebdfcf;
+  --muted:#b9aaa0;
+  --paper:#eee2ce;
+  --paper-texture:url('assets/notebook-paper-worn.webp');
+  --ink:#392b27;
+  --wine:#672c30;
+  --rule:#87786c;
+  /* ★ TWEAK: FONTS */
+  --font-name:'Pinyon Script',cursive;
+  --font-script:'Lexi Notebook','The Nautigal',cursive;
+  --font-hand:Caveat,cursive;
+  --font-lyrics:Georgia,'Times New Roman',serif;
+  --font-body:Georgia,'Times New Roman',serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.15' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing:border-box;
+}
 
-html { scroll-behavior: smooth; }
+[hidden] {
+  display:none!important;
+}
 
-/* ------------------------------------------------------------
-   PAGE BACKGROUND — the inspiration photo
-   The artwork (roses, glass cracks, broken heart, splatter) now
-   comes straight from the real image in assets/. The photo lives
-   on a fixed, full-viewport layer (.bg-photo, just below), so the
-   body itself only needs a dark fallback color.
-   ------------------------------------------------------------ */
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:24px;
+}
+
 body {
-  margin: 0;
-  font-family: var(--font-body);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-  background-color: var(--bg-edge);   /* deep fallback behind the photo */
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.6;
 }
 
-/* ------------------------------------------------------------
-   THE BACKGROUND PHOTO LAYER
-   A fixed, full-viewport element holding the image. It sits BEHIND
-   the content (negative z-index) and never catches clicks. Using a
-   fixed element (rather than background-attachment: fixed) keeps it
-   viewport-sized and smooth on phones too.
+button,input {
+  font:inherit;
+}
 
-   Scaling, in one rule: background-size: cover + position left
-   means the image always fills the screen anchored to its LEFT
-   edge. So a wide screen shows (almost) the whole 16:9 image; a
-   square screen zooms into the left side; a tall phone shows just
-   the left ~third. A faint dark scrim keeps text + cards readable
-   over the lighter parts of the photo — drop it to go brighter.
-   ------------------------------------------------------------ */
-/* ★ TWEAK: BACKGROUND PHOTO — swap the url(...) below to change the
-   picture. The rgba(...) line above it is the dark "scrim" laid over
-   the photo: raise the 0.32 numbers to darken it, lower to brighten. */
+button,a,input {
+  -webkit-tap-highlight-color:transparent;
+}
+
+button,a {
+  touch-action:manipulation;
+}
+
+a {
+  color:inherit;
+  text-underline-offset:5px;
+}
+
+button {
+  cursor:pointer;
+}
+
+a:focus-visible,button:focus-visible,input:focus-visible {
+  outline:2px solid #efb4ac;
+  outline-offset:5px;
+}
+
+::selection {
+  background:#793a40;
+  color:#fff4e6;
+}
+
 .bg-photo {
-  position: fixed;
-  inset: 0;
-  z-index: -1;            /* behind the page content */
-  pointer-events: none;   /* never blocks clicks */
-  background-image:
-    linear-gradient(rgba(14, 11, 17, 0.32), rgba(14, 11, 17, 0.32)),
-    url("assets/background_inspiration.webp");
-  background-position: left center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background-image:url('assets/notebook-smoke.webp');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.5;
 }
 
-/* ------------------------------------------------------------
-   CLICK INK FLECKS  (now a little spray of blood)
-   main.js drops a handful of tiny specks at every click or tap;
-   each flies out by its own --dx/--dy offset, shrinks, fades,
-   and removes itself. (Colors/sizes are set in main.js.)
-   ------------------------------------------------------------ */
-.sparkle {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50% 40% 60% 45%;   /* irregular, like a fleck */
-  pointer-events: none;
-  z-index: 100;
-  animation: sparkleFly 0.7s ease-out forwards;
+.site-shell {
+  max-width:1440px;
+  margin:auto;
+  padding:0 clamp(20px,4.5vw,72px);
 }
 
-@keyframes sparkleFly {
-  from {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translate(calc(var(--dx) - 50%), calc(var(--dy) - 50%)) scale(0.2);
-  }
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
 }
 
-/* ---------- keyboard focus ring ---------- */
-:focus-visible {
-  outline: 2px solid var(--crimson);
-  outline-offset: 3px;
-  border-radius: 2px;
+.skip-link {
+  position:fixed;
+  left:20px;
+  top:-80px;
+  z-index:10;
+  padding:12px 20px;
+  background:var(--paper);
+  color:var(--ink);
 }
 
-/* ============================================================
-   HERO
-   ============================================================ */
+.skip-link:focus {
+  top:10px;
+}
+
+.site-nav {
+  width:70%;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:32px;
+  min-height:78px;
+  font-size:15px;
+}
+
+.site-nav a {
+  text-decoration:none;
+  padding:10px 0;
+}
+
+.site-nav a:hover {
+  color:#e7a8a0;
+}
+
+.section-link {
+  position:relative;
+}
+
+.section-link::after {
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:3px;
+  height:2px;
+  background:#ad4845;
+  opacity:0;
+}
+
+.section-link[aria-current="location"]::after {
+  opacity:1;
+}
+
+.wordmark {
+  font-size:11px;
+  letter-spacing:.24em;
+  white-space:nowrap;
+}
+
+.nav-rule {
+  height:1px;
+  background:#c5bdb28c;
+  flex:1;
+}
+
 .hero {
-  position: relative;
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: clamp(3rem, 8vw, 6rem) 1.25rem 3rem;
-  overflow: hidden;
+  position:relative;
+  padding:12px 0 32px;
+  min-height:240px;
 }
 
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: clamp(0.62rem, 1.6vw, 0.78rem);
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px dashed rgba(236, 232, 234, 0.22);
-  padding: 0.4rem 0.95rem;
-  border-radius: 2px;
-  margin: 0 0 1.7rem;
-}
-
-/* ★ TWEAK: NAME SIZE — the font-size clamp() below is how big the
-   artist name renders: clamp(smallest, fluid, biggest).
-   The name is in the Lovers Quarrel flourish. Script faces read
-   best in title case (not ALL CAPS), so text-transform is off and
-   the markup is "Lexi Robles". */
+/* Screen blending removes the black artwork backing without damaging fine strokes. */
 .hero h1 {
-  font-family: var(--font-name);
-  font-weight: 400;
-  /* script needs to run big to read at a glance */
-  font-size: clamp(3.6rem, 14vw, 11rem); /*3.6rem, 14vw, 8rem is the default*/
-  letter-spacing: 0.01em;
-  line-height: 1.0;
-  margin: 0 0 0.6rem;
-  text-transform: none;
-  color: var(--text);
-  /* a soft dark halo + a faint blood glow behind the strokes */
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 0 34px rgba(179, 32, 43, 0.14);
-  -webkit-user-select: none;
-  user-select: none;
+  position:relative;
+  z-index:1;
+  mix-blend-mode:screen;
+  display:block;
+  width:66%;
+  max-width:700px;
+  margin:0 0 12px;
+  line-height:0;
 }
-
-/* The first name gets the bold pop: crimson, no box (a rubber-stamp
-   box fights the flowing script). */
-.hero h1 .accent {
-  color: var(--crimson);
+.name-artwork {
+  display:block;
+  width:100%;
+  height:auto;
 }
 
 .tagline {
-  font-family: var(--font-script);   /* Mathilde script */
-  color: var(--muted);
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
-  line-height: 1.2;
-  max-width: 34ch;
-  margin: 0.6rem 0 0;
+  position:relative;
+  z-index:1;
+  width:66%;
+  max-width:700px;
+  margin:-22px 0 0;
+  text-align:center;
+  font-size:17px;
+  letter-spacing:.07em;
+  color:#d1beb0;
 }
 
-/* The bouncing arrow that invites scrolling */
-.scroll-hint {
-  margin-top: 2.6rem;
-  color: var(--crimson);
-  text-decoration: none;
-  font-size: 1.4rem;
-  animation: bounce 2.2s ease-in-out infinite;
+.hero-roses {
+  position:absolute;
+  z-index:0;
+  right:-35px;
+  top:-57px;
+  width:49%;
+  height:300px;
+  object-fit:contain;
+  object-position:right center;
+  pointer-events:none;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(8px); }
+.spotlight {
+  display:grid;
+  grid-template-columns:minmax(0,1.95fr) minmax(0,1fr);
+  gap:clamp(25px,3vw,48px);
+  align-items:start;
 }
 
-/* ============================================================
-   THE SONG GRID
-   auto-fill + minmax = the columns rearrange themselves:
-   3-ish columns on a desktop, 2 on a tablet, 1 on a phone.
-   ============================================================ */
-/* ★ TWEAK: PAGE WIDTH — how wide the song-grid area can get before
-   it stops growing and centers itself. */
-main {
-  max-width: 1400px; /*1200 was the default*/
-  margin: 0 auto;
-  padding: 1rem clamp(1rem, 4vw, 2rem) 4rem;
+.spotlight.without-feature {
+  grid-template-columns:1fr;
 }
 
-/* ★ TWEAK: CARD SIZE — the 350px below is the minimum card width:
-   make it smaller for more columns, bigger for fewer, wider cards.
-   The gap line is the space between cards. */
-.lyrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr)); /*(320px, 100%) is the default*/
-  gap: clamp(1.2rem, 2.8vw, 1.9rem);
-  align-items: start;   /* an opened (tall) card won't stretch its row-mates */
-}
-
-/* ============================================================
-   ONE SONG CARD — the "cracked glass" style
-   A dark slate card with a crimson glow edge so it stands out hard
-   against the photo. Inner text reads from the --card-* variables
-   (bone on dark). Each card tilts a hair so the grid looks
-   hand-arranged.
-   ============================================================ */
-/* ★ TWEAK: CARD LOOK — the card's text colors (--card-* just below),
-   background color, crimson border, and glow (box-shadow). */
 .song-card {
-  /* inner-content theming hooks */
-  --card-ink: #f7a8b7;             /* soft pink text on the dark card */
-  --card-ink-soft: #a59db0;        /* dim text (chips, dividers) */
-  --card-rule: rgba(223, 230, 234, 0.18);  /* the dashed fold lines */
-  --card-accent: var(--crimson);   /* the pop used inside the card */
-
-  position: relative;
-  color: var(--card-ink);
-  background-color: #1b1620;
-  background-image:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.05), transparent 42%),
-    var(--grain);
-  background-size: auto, 180px 180px;
-  background-blend-mode: normal, overlay;
-  border: 1px solid rgba(179, 32, 43, 0.55);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(179, 32, 43, 0.15),
-    0 0 22px rgba(179, 32, 43, 0.20),
-    0 10px 22px rgba(0, 0, 0, 0.6);
-  /* each card sits at a tiny angle, like it was pinned up crooked */
-  transform: rotate(var(--rot, 0deg));
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  position:relative;
+  isolation:isolate;
+  color:var(--ink);
+  min-width:0;
+  scroll-margin-top:24px;
+  --paper-pad:36px;
 }
 
-/* ★ TWEAK: CARD TILT — vary the tilt so the wall of cards looks
-   hand-arranged; set all three to 0deg for perfectly straight. */
-.song-card:nth-child(3n + 1) { --rot: -0.8deg; }
-.song-card:nth-child(3n + 2) { --rot:  0.7deg; }
-.song-card:nth-child(3n)     { --rot: -0.4deg; }
-
-/* Hover (mouse) and focus-within (keyboard) lift the card and
-   brighten the crimson glow */
-.song-card:hover,
-.song-card:focus-within {
-  transform: translateY(-4px) rotate(var(--rot, 0deg));
-  box-shadow:
-    0 0 0 1px rgba(179, 32, 43, 0.28),
-    0 0 32px rgba(179, 32, 43, 0.30),
-    0 16px 28px rgba(0, 0, 0, 0.65);
+.song-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background-image:linear-gradient(90deg,#93603b20,transparent 7%,transparent 94%,#93603b30),var(--paper-texture);
+  background-size:100% 100%,620px 620px;
+  background-color:var(--paper);
+  box-shadow:inset 0 0 18px #8e674948,inset 0 -8px 12px #a67c3b2e;
+  clip-path:polygon(0% 5px,2% 2px,4% 4px,6% 1px,8% 3px,10% 0px,12% 4px,14% 2px,16% 5px,18% 1px,20% 3px,22% 2px,24% 0px,26% 4px,28% 1px,30% 5px,32% 2px,34% 3px,36% 0px,38% 4px,40% 2px,42% 1px,44% 5px,46% 2px,48% 4px,50% 0px,52% 3px,54% 1px,56% 4px,58% 2px,60% 0px,62% 3px,64% 5px,66% 1px,68% 2px,70% 4px,72% 1px,74% 0px,76% 5px,78% 2px,80% 4px,82% 1px,84% 3px,86% 0px,88% 2px,90% 4px,92% 1px,94% 5px,96% 2px,98% 3px,100% 4px,calc(100% - 3px) 18%,100% 31%,calc(100% - 4px) 46%,100% 64%,calc(100% - 2px) 83%,100% calc(100% - 4px),98% calc(100% - 2px),96% calc(100% - 5px),94% calc(100% - 1px),92% calc(100% - 3px),90% calc(100% - 0px),88% calc(100% - 2px),86% calc(100% - 4px),84% calc(100% - 1px),82% calc(100% - 5px),80% calc(100% - 2px),78% calc(100% - 0px),76% calc(100% - 3px),74% calc(100% - 1px),72% calc(100% - 4px),70% calc(100% - 2px),68% calc(100% - 5px),66% calc(100% - 0px),64% calc(100% - 2px),62% calc(100% - 3px),60% calc(100% - 1px),58% calc(100% - 4px),56% calc(100% - 2px),54% calc(100% - 0px),52% calc(100% - 5px),50% calc(100% - 3px),48% calc(100% - 1px),46% calc(100% - 4px),44% calc(100% - 2px),42% calc(100% - 0px),40% calc(100% - 3px),38% calc(100% - 5px),36% calc(100% - 1px),34% calc(100% - 2px),32% calc(100% - 4px),30% calc(100% - 0px),28% calc(100% - 3px),26% calc(100% - 1px),24% calc(100% - 5px),22% calc(100% - 2px),20% calc(100% - 4px),18% calc(100% - 1px),16% calc(100% - 0px),14% calc(100% - 3px),12% calc(100% - 2px),10% calc(100% - 5px),8% calc(100% - 1px),6% calc(100% - 4px),4% calc(100% - 2px),2% calc(100% - 0px),0% calc(100% - 3px),3px 82%,0 66%,4px 48%,0 30%,3px 15%);
 }
 
-/* An open card lies flat (straightened) so it's easy to read */
-.song-card.open { transform: rotate(0deg); }
-.song-card.open:hover { transform: rotate(0deg); }
-
-/* --- the clickable header (a real <button>) ----------------- */
-.card-toggle {
-  appearance: none;
-  background: none;
-  border: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  position: relative;
-  /* generous padding = an easy touch target, clear of torn teeth */
-  padding: 1.4rem 3.2rem 1.3rem 1.4rem;
+.card-cover {
+  position:relative;
+  padding:30px var(--paper-pad) 34px;
 }
 
-/* ★ TWEAK: TITLE SIZE — the song title, in the Mathilde brush script */
+.card-meta {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#715c51;
+}
+
 .card-title {
-  font-family: var(--font-script);
-  font-weight: 400;
-  /* Plain 3rem on purpose: this used to be clamp(3.0rem, 3.4vw,
-     2.05rem), but a clamp() whose minimum is bigger than its
-     maximum always resolves to the minimum — so it rendered as a
-     fixed 3rem everywhere anyway. This just says so honestly.
-     (Verified: long titles still fit on a 375px phone.) */
-  font-size: 3rem;
-  letter-spacing: 0.01em;
-  line-height: 1.05;
-  color: var(--card-ink);
-  margin: 0 0 0.4rem;
+  margin:12px 0 8px;
+  font-family:var(--font-script);
+  font-synthesis:none;
+  font-size:clamp(48px,5.2vw,68px);
+  line-height:1.25;
+  font-weight:400;
+  color:var(--wine);
+  overflow-wrap:anywhere;
 }
 
-.card-chips {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--card-ink-soft);
-  margin: 0 0 0.55rem;
+.card-meta-rule {
+  flex:1;
+  min-width:16px;
+  height:1px;
+  background:#8f796343;
+}
+
+.song-status {
+  text-align:right;
 }
 
 .card-teaser {
-  font-family: var(--font-hand);     /* the preview is in handwriting */
-  color: var(--card-ink-soft);
-  font-size: 1.05rem;
-  line-height: 1.25;
-  margin: 0;
-  /* clamp the preview to 2 lines with "..." if it's longer */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size:17px;
+  line-height:1.85;
+  margin:12px 0 23px;
 }
 
-/* the + in the corner; rotates into an x when the card opens */
+.card-teaser span {
+  display:block;
+}
+
+.card-toggle {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  background:var(--wine);
+  color:#fff0dd;
+  border:1px solid var(--wine);
+  padding:10px 22px;
+  min-height:46px;
+  font-size:15px;
+  box-shadow:0 2px 2px #41262022;
+}
+
+.card-toggle:hover {
+  background:#813b3d;
+}
+
+.song-card button:focus-visible {
+  outline-color:#672c30;
+}
+
 .expand-icon {
-  position: absolute;
-  top: 1.15rem;
-  right: 1.15rem;
-  font-size: 1.5rem;
-  font-weight: 300;
-  line-height: 1;
-  color: var(--card-ink-soft);
-  transition: transform 0.25s ease, color 0.25s ease;
+  font-size:23px;
+  line-height:1;
 }
 
-.song-card.open .expand-icon {
-  transform: rotate(45deg);     /* + rotated 45 degrees looks like x */
-  color: var(--card-accent);    /* a crimson pop when open */
+.featured-card {
+  --paper-pad:64px;
 }
 
-/* ============================================================
-   THE EXPANDING LYRICS PANEL
-   The trick: a CSS grid row animating between 0fr (closed) and
-   1fr (open). This lets the height animate smoothly with no JS
-   measuring anything.
-   ============================================================ */
-/* ★ TWEAK: OPEN/CLOSE SPEED — the 0.35s below is how long a card
-   takes to expand or collapse. */
+.featured-card::before {
+  background-image:repeating-linear-gradient(transparent 0 31px,#8f93951c 31px 32px),linear-gradient(90deg,#9063412b,transparent 8%,transparent 91%,#90634135),var(--paper-texture);
+  background-size:100% 100%,100% 100%,620px 620px;
+  /* Fixed-width mask preserves round punches; ragged slots tear selected holes open. */
+  mask-image:url('assets/notebook-torn-edge.svg'),linear-gradient(#000,#000);
+  mask-size:32px 360px,calc(100% - 30px) 100%;
+  mask-position:left top,right top;
+  mask-repeat:repeat-y,no-repeat;
+}
+
+.featured-card::after {
+  content:'';
+  position:absolute;
+  top:3px;
+  bottom:3px;
+  left:42px;
+  border-left:1px solid #a6534970;
+  z-index:-1;
+  pointer-events:none;
+}
+
+.featured-card .card-cover {
+  padding:30px 170px 38px var(--paper-pad);
+  min-height:416px;
+}
+
+.featured-card .card-meta {
+  gap:20px;
+  max-width:360px;
+}
+
+.featured-label {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex:1;
+  text-transform:uppercase;
+  letter-spacing:.24em;
+  color:var(--wine);
+  font-size:12px;
+  white-space:nowrap;
+}
+
+.featured-label::after {
+  content:'';
+  height:1px;
+  background:#88736670;
+  flex:1;
+}
+
+.featured-card .card-title {
+  position:relative;
+  width:fit-content;
+  font-weight:700;
+  font-size:clamp(104px,10vw,144px);
+  margin:9px 0 32px;
+  transform:rotate(-5deg);
+}
+/* A dry-ink underline like the handwritten title in the reference. */
+.featured-card .card-title::after {
+  content:'';
+  position:absolute;
+  bottom:-6px;
+  left:22%;
+  width:94%;
+  height:3px;
+  background:#763b30b8;
+  clip-path:polygon(0 48%,100% 0,96% 38%,3% 100%);
+  transform:rotate(-3deg);
+}
+
+.featured-card .card-teaser {
+  font-size:18px;
+  line-height:1.9;
+  margin:8px 0 26px;
+}
+
+.pressed-flower {
+  position:absolute;
+  right:8px;
+  top:20px;
+  width:125px;
+  height:370px;
+  pointer-events:none;
+}
+
+.pressed-flower>img:not(.paper-heart) {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.margin-note {
+  position:absolute;
+  top:176px;
+  left:-16px;
+  width:84px;
+  text-align:center;
+  font-family:var(--font-script);
+  font-weight:700;
+  font-size:27px;
+  line-height:1.05;
+  white-space:pre-line;
+  transform:rotate(-12deg);
+  color:var(--wine);
+}
+
+.paper-heart {
+  position:absolute;
+  width:56px;
+  height:64px;
+  left:0;
+  top:278px;
+  transform:rotate(-7deg);
+}
+
+.collection-sidebar {
+  padding:6px 0 0;
+}
+
+.sidebar-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid #a08b724d;
+  padding:0 0 12px;
+}
+
+.sidebar-heading h2 {
+  font-size:12px;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  margin:0;
+  font-weight:400;
+}
+
+.collection-links {
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.collection-links li {
+  border-bottom:1px solid #a08b7240;
+}
+
+.collection-links a {
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr) 34px;
+  align-items:center;
+  gap:9px;
+  padding:16px 0;
+  min-height:55px;
+  text-decoration:none;
+}
+
+.collection-links a:hover .collection-name {
+  color:#e7a8a0;
+}
+
+.collection-number {
+  font-family:var(--font-hand);
+  font-size:16px;
+  font-weight:700;
+  color:#c66b62;
+}
+
+.collection-name {
+  font-size:18px;
+  line-height:1.3;
+}
+
+.collection-year {
+  font-size:11px;
+  color:var(--muted);
+  text-align:right;
+}
+
+.view-all {
+  display:block;
+  width:fit-content;
+  margin:16px 0 0 auto;
+  padding:6px 0;
+  font-size:14px;
+  text-decoration:none;
+  color:#ddc5b0;
+}
+
+.view-all:hover {
+  text-decoration:underline;
+}
+
+.full-collection {
+  margin-top:58px;
+}
+
+.collection-toolbar {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+}
+
+.eyebrow {
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.collection-toolbar h2 {
+  font-weight:400;
+  font-size:30px;
+  margin:4px 0 0;
+}
+
+.search-controls {
+  width:290px;
+  max-width:100%;
+  font-size:12px;
+}
+
+.search-controls label {
+  display:block;
+  color:#c6b5a6;
+  margin-bottom:5px;
+}
+
+.search-field {
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid #9c897c;
+  padding:3px 0 6px;
+  gap:8px;
+}
+
+.search-field input {
+  width:100%;
+  min-width:0;
+  min-height:36px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--text);
+  font-size:15px;
+}
+
+.search-field input::placeholder {
+  color:#b9aaa0;
+  opacity:1;
+}
+
+.search-field button {
+  background:none;
+  border:0;
+  color:var(--text);
+  min-height:36px;
+  padding:4px;
+}
+
+.search-status {
+  font-size:12px;
+  color:var(--muted);
+  margin:12px 0 20px;
+}
+
+.lyrics-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:26px;
+}
+
+.lyrics-grid .song-card.open {
+  grid-column:1/-1;
+}
+
 .lyrics-panel {
-  display: grid;
-  grid-template-rows: 0fr;            /* closed */
-  transition: grid-template-rows 0.35s ease;
+  display:grid;
+  grid-template-rows:0fr;
+  visibility:hidden;
 }
 
+/* ★ TWEAK: OPEN/CLOSE SPEED — closing is instant. */
 .song-card.open .lyrics-panel {
-  grid-template-rows: 1fr;            /* open */
+  grid-template-rows:1fr;
+  visibility:visible;
+  transition:grid-template-rows .3s ease;
 }
 
 .lyrics-panel-inner {
-  min-height: 0;       /* required for the 0fr trick to work */
-  overflow: hidden;
+  min-height:0;
+  overflow:hidden;
 }
 
 .lyrics-text {
-  display: block;
-  padding: 0.4rem 1.4rem 1.5rem;
-  border-top: 1px dashed var(--card-rule);
+  font-family:var(--font-lyrics);
+  font-size:19px;
+  line-height:1.9;
+  padding:0 var(--paper-pad) 20px;
+  overflow-wrap:anywhere;
 }
 
-/* ★ TWEAK: LYRICS SIZE — every line of lyrics is its own span (made
-   by main.js). font-size is how big the handwriting is; line-height
-   is the space between lines (keep it 1.05 or higher!). */
 .lyric-line {
-  display: block;
-  font-family: var(--font-lyrics);
-  font-size: 2.5rem;
-  /* Tight handwritten leading — but not TOO tight: below ~1.05 the
-     tall Mathilde ascenders/descenders collide whenever a long line
-     wraps (which most do on phones), making lyrics hard to read. */
-  line-height: 1.05;
-  color: var(--card-ink);
-  max-width: max-content; /*30ch;*/
-  overflow-wrap: break-word;  /* never cause horizontal scroll */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 200;
+  display:block;
+  min-height:1em;
+  white-space:pre-wrap;
 }
 
-/* the visual gap where the song file had a blank line */
-.lyric-gap { height: 0.35em; }
+.lyric-gap {
+  height:1.2em;
+}
 
-/* [Verse 1], [Chorus], ... markers — kept in the typed mono so
-   they stay legible and contrast with the script lyrics */
 .section-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--card-ink-soft);
-  margin-top: 1.1em;
+  font-family:var(--font-body);
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#76574d;
+  margin:24px 0 10px;
 }
 
-.lyrics-text .section-label:first-child { margin-top: 0.4em; }
-
-/* ---------- "the story behind the song" block ---------- */
 .song-story {
-  padding: 0.9rem 1.4rem 0.4rem;
-  border-top: 1px dashed var(--card-rule);
+  margin:0 var(--paper-pad) 26px;
+  border-top:1px solid #9b83784d;
+  padding-top:20px;
 }
 
 .story-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: var(--card-accent);
-  margin: 0 0 0.4rem;
+  font-size:11px;
+  letter-spacing:.12em;
+  color:#76574d;
 }
 
 .story-text {
-  font-family: var(--font-hand);   /* the story is handwritten */
-  color: var(--card-ink-soft);
-  font-size: 1.08rem;
-  line-height: 1.3;
-  margin: 0;
-  max-width: 58ch;
+  font:17px/1.8 var(--font-lyrics);
 }
 
-/* ---------- the "copy link" row at the bottom of an open card --- */
 .panel-actions {
-  padding: 1rem 1.4rem 1.4rem;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  padding:0 var(--paper-pad) 34px;
 }
 
-.copy-link-btn {
-  appearance: none;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--card-ink);
-  background: transparent;
-  border: 1px solid var(--card-rule);
-  border-radius: 2px;
-  padding: 0.5rem 1.1rem;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+.copy-link-btn,.close-song-btn {
+  color:var(--wine);
+  background:transparent;
+  border:1px solid #8d655956;
+  padding:8px 12px;
+  min-height:44px;
+  font-size:13px;
 }
 
-.copy-link-btn:hover {
-  color: var(--card-accent);
-  border-color: var(--card-accent);
-  background: rgba(179, 32, 43, 0.10);
+.copy-link-btn:hover,.close-song-btn:hover {
+  background:#672c3010;
 }
 
-/* ---------- error card (missing file / file:// preview) -----
-   Self-contained (its own dark panel + bone text) so it reads on
-   the dark board even without a style variant. */
 .error-card {
-  background: rgba(27, 22, 32, 0.85);
-  border: 1px solid rgba(179, 32, 43, 0.5);
-  border-top: 3px solid var(--crimson);
-  color: var(--text);
-  padding: 1.2rem 1.4rem;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  grid-column: 1 / -1;     /* span the whole grid width */
+  padding:32px;
+  line-height:1.8;
 }
 
-/* ---------- noscript note ---------- */
-.noscript-note {
-  text-align: center;
-  color: var(--muted);
-  padding: 2rem 1rem;
+.no-results,.loading-note,.noscript-note {
+  padding:24px 0;
+  color:var(--muted);
 }
 
-.noscript-note a { color: var(--crimson); }
-
-/* ============================================================
-   ABOUT
-   ============================================================ */
 .about {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 1rem clamp(1rem, 4vw, 2rem) 4.5rem;
-  text-align: center;
+  max-width:650px;
+  margin:72px auto 55px;
+  text-align:center;
 }
 
 .about h2 {
-  /*font-family: var(--font-script);*/   /* Mathilde script */
-  font-size: clamp(2rem, 4.5vw, 2.8rem);
-  letter-spacing: 0.02em;
-  color: var(--text);
-  margin: 0 0 1.2rem;
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.22em;
+  color:#d7bca6;
 }
 
-/* keep the "//" in the marker font so only the word reads as script */
-.about h2 .slashes {
-  font-family: var(--font-display);
-  color: var(--crimson);
-  margin-right: 0.4rem;
+.slashes {
+  color:#c1837b;
+  margin-right:5px;
 }
 
 .about-text {
-  color: var(--muted);
-  margin: 0 auto 1.8rem;
-  max-width: 54ch;
+  font-size:17px;
+  line-height:1.9;
+  color:#c9b8aa;
 }
 
 .social-links {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;          /* chips wrap nicely on phones */
-  gap: 0.8rem;
-  margin: 0;
-  padding: 0;
+  list-style:none;
+  padding:0;
+  display:flex;
+  justify-content:center;
+  gap:20px;
 }
 
-.social-links a {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--text);
-  border: 1px solid rgba(236, 232, 234, 0.26);
-  border-radius: 2px;
-  padding: 0.55rem 1.2rem;
-  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
-}
-
-.social-links a:hover {
-  border-color: var(--crimson);
-  color: var(--crimson);
-  background: rgba(179, 32, 43, 0.08);
-}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
 .site-footer {
-  border-top: 1px solid rgba(236, 232, 234, 0.14);
-  text-align: center;
-  padding: 2.2rem 1.25rem 2.6rem;
-  font-family: var(--font-mono);
-  letter-spacing: 0.1em;
-  font-size: 0.8rem;
-  color: var(--muted);
+  text-align:center;
+  border-top:1px solid #9c897c33;
+  padding:24px 0 32px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.07em;
 }
 
-.site-footer p { margin: 0 0 0.5rem; }
-
-.site-footer .dot { color: var(--crimson); margin: 0 0.45rem; }
+.site-footer p {
+  margin:6px 0;
+}
 
 .footer-small {
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  opacity: 0.8;
+  letter-spacing:0;
+  line-height:1.8;
 }
 
-/* ============================================================
-   EASTER EGG — main.js puts a "rockout" class on <body> when the
-   hero name is clicked 5 times fast. For ~1.6 seconds the name
-   shakes like it's being scrawled, the first name strobes through
-   a run of colors, and a soft dark wash pulses over the screen.
-   ============================================================ */
+.dot {
+  padding:0 6px;
+}
+
+.sparkle {
+  position:fixed;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:20;
+  animation:fleck .55s ease-out forwards;
+}
+
+@keyframes fleck {
+  to {
+    transform:translate(var(--dx),var(--dy)) scale(0);
+    opacity:0;
+  }
+}
+
 .rockout .hero h1 {
-  animation: scribbleShake 0.5s steps(2, end) 3;
+  color:#d79088;
+  text-shadow:2px 1px #68262b,-2px -1px #f5d6ba;
 }
 
-@keyframes scribbleShake {
-  0%   { transform: translate(0, 0) rotate(0); }
-  20%  { transform: translate(-3px, 2px) rotate(-1deg); }
-  40%  { transform: translate(3px, -2px) rotate(1deg); }
-  60%  { transform: translate(-2px, -2px) rotate(-1.5deg); }
-  80%  { transform: translate(2px, 2px) rotate(1deg); }
-  100% { transform: translate(0, 0) rotate(0); }
+@media(min-width:1500px) {
+  .hero {
+    min-height:294px;
+  }
+  .hero-roses {
+    height:370px;
+    top:-65px;
+  }
 }
 
-/* the first name strobes through a run of colors, then lands back
-   on its normal crimson so it settles cleanly when the egg ends */
-.rockout .hero h1 .accent {
-  animation: nameFlash 1.5s linear both;
+@media(max-width:1050px) {
+  .spotlight {
+    grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);
+    gap:26px;
+  }
+  .sidebar-heading {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:2px;
+  }
+  .featured-card {
+    --paper-pad:48px;
+  }
+  .featured-card::after {
+    left:30px;
+  }
+  .featured-card .card-cover {
+    padding-right:130px;
+  }
+  .pressed-flower {
+    width:105px;
+    right:0;
+  }
+  .margin-note {
+    left:-16px;
+    font-size:24px;
+  }
+  .collection-name {
+    font-size:16px;
+  }
+  .hero {
+    min-height:240px;
+  }
+  .hero-roses {
+    right:-20px;
+    top:-15px;
+    height:280px;
+  }
+  .featured-card .card-teaser {
+    font-size:17px;
+  }
 }
 
-@keyframes nameFlash {
-  0%,  11% { color: #ff2e63; }   /* hot pink */
-  12%, 23% { color: #ffd23f; }   /* gold */
-  24%, 35% { color: #3ddc97; }   /* green */
-  36%, 47% { color: #4d9bff; }   /* blue */
-  48%, 59% { color: #c77dff; }   /* violet */
-  60%, 71% { color: #ff7b29; }   /* orange */
-  72%, 83% { color: #2ec5d3; }   /* cyan */
-  84%,100% { color: var(--crimson); }
+@media(max-width:800px) {
+  .site-nav { width:100%; }
+  .spotlight {
+    grid-template-columns:minmax(0,1fr);
+  }
+  .sidebar-heading {
+    align-items:center;
+    flex-direction:row;
+  }
+  .collection-sidebar {
+    padding:12px 4px 0;
+  }
+  .collection-links {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:28px;
+  }
+  .hero {
+    padding:24px 0 38px;
+    min-height:232px;
+  }
+  .hero h1, .tagline {
+    width:85%;
+  }
+  .hero-roses {
+    opacity:.6;
+    width:55%;
+    right:-20px;
+  }
+  .featured-card .card-cover {
+    padding-right:190px;
+    min-height:390px;
+  }
+  .pressed-flower {
+    width:135px;
+    right:15px;
+    height:350px;
+  }
+  .margin-note {
+    left:-16px;
+    font-size:27px;
+  }
+  .featured-card .card-title {
+    font-size:115px;
+  }
+  .full-collection {
+    margin-top:42px;
+  }
+  .song-card {
+    --paper-pad:28px;
+  }
+  .featured-card {
+    --paper-pad:60px;
+  }
+  .featured-card::after {
+    left:38px;
+  }
+  .card-title {
+    font-size:60px;
+  }
+  .card-teaser {
+    font-size:16px;
+  }
 }
 
-/* a soft dark wash that pulses in and out (kept subtle so the
-   color-flashing name stays the star of the show) */
-.rockout::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 99;
-  pointer-events: none;   /* never blocks clicks */
-  background:
-    radial-gradient(ellipse at 30% 25%, rgba(179, 32, 43, 0.14), transparent 55%),
-    radial-gradient(ellipse at 72% 70%, rgba(110, 36, 51, 0.12), transparent 55%),
-    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.28), transparent 70%);
-  animation: inkFlash 1.6s ease-out forwards;
+@media(max-width:560px) {
+  .site-shell {
+    padding:0 20px;
+  }
+  .site-nav {
+    gap:20px;
+    min-height:64px;
+    font-size:13px;
+  }
+  .wordmark {
+    font-size:9px;
+    letter-spacing:.15em;
+    margin-right:auto;
+  }
+  .nav-rule {
+    display:none;
+  }
+  .hero {
+    min-height:213px;
+    padding:22px 0 42px;
+  }
+  .hero h1, .tagline {
+    width:100%;
+  }
+  .tagline {
+    font-size:13px;
+    letter-spacing:.025em;
+    margin-top:-10px;
+    margin-left:0;
+  }
+  .hero-roses {
+    width:66%;
+    height:230px;
+    top:-12px;
+    right:-20px;
+    opacity:.38;
+  }
+  .featured-card {
+    --paper-pad:33px;
+  }
+  .featured-card::after {
+    left:20px;
+  }
+  .featured-card::before {
+    mask-size:24px 270px,calc(100% - 22px) 100%;
+  }
+  .featured-card .card-cover {
+    padding:24px 28px 30px 33px;
+    min-height:374px;
+  }
+  .featured-label {
+    font-size:10px;
+    letter-spacing:.14em;
+  }
+  .featured-card .card-meta {
+    padding-right:40px;
+    gap:12px;
+  }
+  .featured-card .card-title {
+    font-size:clamp(50px,16vw,82px);
+    max-width:75%;
+    margin-top:27px;
+    margin-bottom:32px;
+  }
+  .featured-card .card-teaser {
+    position:relative;
+    font-size:16px;
+    line-height:1.75;
+    margin-top:110px;
+    max-width:100%;
+  }
+  .pressed-flower {
+    width:75px;
+    height:190px;
+    top:15px;
+    right:5px;
+  }
+  .margin-note {
+    font-size:20px;
+    top:110px;
+    left:-10px;
+    width:65px;
+  }
+  .paper-heart {
+    top:177px;
+    left:6px;
+    width:36px;
+    height:42px;
+  }
+  .featured-card .card-toggle {
+    font-size:14px;
+  }
+  .collection-links {
+    display:block;
+  }
+  .collection-name {
+    font-size:18px;
+  }
+  .collection-links a {
+    min-height:58px;
+  }
+  .sidebar-heading h2 {
+    font-size:11px;
+  }
+  .collection-toolbar {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:18px;
+  }
+  .collection-toolbar h2 {
+    font-size:28px;
+  }
+  .search-controls {
+    width:100%;
+  }
+  .lyrics-grid {
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+  .card-title {
+    font-size:clamp(46px,12vw,60px);
+  }
+  .card-cover {
+    padding:26px var(--paper-pad) 30px;
+  }
+  .card-meta {
+    font-size:10px;
+  }
+  .lyrics-text {
+    font-size:17px;
+    line-height:1.85;
+  }
+  .panel-actions {
+    gap:10px;
+  }
+  .about {
+    margin:52px auto 36px;
+  }
+  .about-text {
+    font-size:16px;
+  }
 }
 
-@keyframes inkFlash {
-  0%   { opacity: 0; }
-  15%  { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* ============================================================
-   SMALL SCREENS (phones)
-   ============================================================ */
-@media (max-width: 640px) {
-  .hero { min-height: 55vh; }
-}
-
-/* ============================================================
-   REDUCED MOTION
-   If the visitor's device is set to "reduce motion", switch off
-   every animation — cards still open/close, just instantly.
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .scroll-hint { animation: none; }
-  .song-card, .lyrics-panel, .expand-icon { transition: none; }
-  /* easter egg + flecks go still too (the flecks are also skipped
-     in main.js; this is belt-and-suspenders) */
-  .rockout .hero h1, .rockout .hero h1 .accent, .rockout::before { animation: none; }
-  .rockout::before { opacity: 0; }
-  .sparkle { animation: none; opacity: 0; }
+@media(prefers-reduced-motion:reduce) {
+  html {
+    scroll-behavior:auto;
+  }
+  .song-card.open .lyrics-panel {
+    transition:none;
+  }
+  .sparkle {
+    display:none;
+  }
 }

@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "02-i-was-your-moon.txt",
+    "title":  "I was your moon",
+    "timestampUtc":  "2026-06-20T21:03:46Z",
+    "packagedUtc":  "2026-10-16T00:40:29.1159469+00:00",
+    "files":  {
+                  "lyrics.txt":  "191106bd7473d06d0d33c721780a92c468fb0b0ad4e3c07c955749b946f57df7",
+                  "proof.tsr":  "d184017efb02f17ad430e2c4865411e7fee63f734e788700c5901c233630d7b9",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

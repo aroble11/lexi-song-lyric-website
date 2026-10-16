@@ -26,7 +26,11 @@ explain git concepts simply.
 
 ---
 
-## 2. Current status (as of 2026-07)
+## 2. Current status
+
+**2026-10 notebook redesign: local review only, not published.** Approved reference: `design-mockups/01-personal-lyric-notebook-v2.png`. Monsters is featured; six other songs link from the sidebar; the entire collection below is searchable. Cards expand in place. Existing lyrics and timestamp files are unchanged.
+
+### Earlier published baseline (2026-07)
 
 **Built, verified working, and published to GitHub.** The git repo is this folder,
 pushed to `https://github.com/aroble11/lexi-song-lyric-website` (branch `main`).
@@ -35,8 +39,8 @@ Seven real songs are on the site, and every one has a FreeTSA timestamp token
 files on 2026-07-19).
 
 - Hero name, page title, tagline, About bio, and footer are filled in (Lexi Robles).
-- **Still placeholder:** the four social links in the About section
-  (`COMING SOON` entries in `index.html`).
+- **Contact links:** the empty About contact list stays hidden until real URLs
+  are supplied. Search `EDIT ME: CONTACT LINKS` in `index.html` to add them.
 - **To confirm on github.com:** GitHub Pages is enabled (Settings → Pages →
   deploy from `main`, root). If the live URL isn't serving, that's the switch.
 - The two old demo songs (`songs/01-example-song-one.txt`, `-two.txt`) and the
@@ -51,9 +55,9 @@ files on 2026-07-19).
   frameworks, no dependencies, no bundler.** This is deliberate — the owner must be
   able to hand-edit everything forever. Do not introduce React/Vue/Tailwind/npm/etc.
 - **Hosting target:** GitHub Pages (static file serving over HTTP).
-- **Fonts:** Google Fonts (Permanent Marker, Caveat, Courier Prime) loaded via
-  `<link>`, plus two **local** families in `fonts/`: Lovers Quarrel (the artist
-  name) and Mathilde (song titles, tagline, and the lyrics themselves).
+- **Fonts:** Google Fonts (Caveat) loaded via
+  `<link>`, plus local Lexi Notebook Regular/Bold for song titles. The artist name uses image
+  artwork with screen blending and accessible heading text. Reading text uses Georgia. Older fonts are retained.
 - **Browser support:** modern evergreen browsers. Uses `fetch`, CSS grid,
   `grid-template-rows: 0fr→1fr` animation, `clamp()`, CSS custom properties.
 - **Keep JS commented** in plain English (owner reads it to learn).
@@ -77,12 +81,13 @@ lexi-song-lyric-website/      ← THIS folder is the git repo (not its parent!)
 │   └── 01-monsters.txt … 07-where-are-you.txt   (7 real songs, all stamped;
 │                              two git-ignored demo files also remain on disk)
 ├── fonts/
-│   ├── lovers-quarrel/      ← Lovers Quarrel .ttf + its OFL license text
-│   └── mathilde/            ← Mathilde .otf (CC BY-SA 3.0; credited in the footer)
+│   ├── lexi-notebook/       ← custom Regular/Bold TTF + WOFF2, source and specimen
+│   ├── pinyonscript/        ← retained name font + OFL license
+│   ├── thenautigal/         ← fallback title fonts + OFL license
+│   └── lovers-quarrel/, mathilde/ ← retained legacy font files
 ├── assets/
-│   ├── background_inspiration.webp  ← THE page background (used by styles.css)
-│   └── *.svg                ← ⚠ UNUSED leftovers (starfield, corner-roses,
-│                              corner-cracks, heart-broken, splatter) — safe to delete
+│   ├── notebook-hero.webp / notebook-pressed-rose.webp ← transparent rose artwork
+│   └── heart-broken.svg     ← featured paper doodle; other SVGs are legacy assets
 ├── timestamps/              ← FreeTSA ownership proof
 │   ├── README.txt           ← what the tokens are + how to verify
 │   ├── cacert.pem           ← FreeTSA CA cert (downloaded; used to verify)
@@ -137,7 +142,8 @@ Second line...
 
 | Feature | Where | Notes |
 |---|---|---|
-| **Expand-in-place cards** | `main.js` buildCard + `.lyrics-panel` CSS | Smooth height anim via `grid-template-rows: 0fr→1fr` trick. |
+| **Expand-in-place cards** | `main.js` buildCard + `.lyrics-panel` CSS | Opened collection cards span both columns; the featured card stays in place; smooth opening, instant closing to prevent scrolling past the next song. |
+| **Collapsed-panel access** | `setCardOpen` | Keeps `inert`, `aria-hidden`, `aria-expanded`, and visible state synchronized for clicks and incoming song links. |
 | **One-open-at-a-time** | toggle click handler | Opening a card auto-collapses any other open card. |
 | **Card chips** | buildCard | Shows `Year · Status`; hidden if neither present. |
 | **Teaser preview** | buildCard | First 2 non-blank, non-`[section]` lyric lines on the closed card. |
@@ -154,89 +160,32 @@ Second line...
 
 ## 7. Design system
 
-**Theme: edgy / punk / emo — "broken glass and roses."** A deep plum-black board
-with a full-viewport photo background (`assets/background_inspiration.webp`: oxblood
-roses, blood splatter, near-white glass cracks, a small hand-drawn broken heart)
-behind dark "cracked-glass" song cards that glow crimson at the edges.
+**Personal lyric notebook:** warm charcoal background, ivory torn paper, oxblood roses and broken glass. No white presentation strip. The margin note reads “trapped in my head.”
 
-**Palette** (defined as CSS variables in `:root` at the top of `styles.css` — change
-once, applies everywhere):
-- `--bg #17131a` deep plum-black; `--bg-haze #2a2230` smoky center;
-  `--bg-edge #0e0b11` near-black edges (also the body fallback color)
-- `--text #ece8ea` cool bone on the board; `--muted #9a909a` ash grey
-- **two pops of color:** `--crimson #b3202b` — THE accent (the name "Lexi", card
-  borders/glows, hovers, open-card ×) — and `--oxblood #6e2433`, the deeper wine
-  secondary; `--glass #dfe6ea` near-white for glass-crack hairlines
-- inside cards: `--card-ink #f7a8b7` soft pink text on the dark card,
-  `--card-ink-soft #a59db0` dimmed, `--card-accent` = crimson
-- `--grain` an inline SVG-noise data-URI layered over board and cards
-
-**Fonts:** Lovers Quarrel (the artist name, huge flowing script — title case, never
-ALL CAPS), Mathilde (song titles, tagline, About heading, and the lyrics themselves —
-reads as the owner's handwriting), Permanent Marker (marker accents like the "//"
-slashes), Caveat (card teasers + story notes), Courier Prime (typed chips, labels,
-buttons, footer).
-
-**Background:** the photo lives on a fixed, full-viewport `.bg-photo` div (negative
-z-index, `pointer-events: none`) with a dark scrim gradient over the image, anchored
-`left center` at `cover` — wide screens see most of the image, phones crop into the
-left third. The body keeps a near-black fallback color while the photo loads.
-
-**Cards (the cracked-glass look):** dark slate (#1b1620) with a crimson border and
-layered crimson glow (box-shadow), faint grain overlay, and a tiny per-card `--rot`
-tilt (via `:nth-child(3n…)`) that **straightens flat when opened** for easy reading.
-Lyrics render in Mathilde at 2.5rem with `line-height: 1.05` — tight handwritten
-leading. **Do not go below ~1.05:** tighter values make wrapped lyric lines collide
-vertically (this was a real bug, fixed 2026-07).
-
-**Responsive:** mobile-first-friendly. `clamp()` type scale, fluid spacing,
-`repeat(auto-fill, minmax(min(350px,100%), 1fr))` grid that flows desktop→tablet→phone.
-Touch targets are large; hover effects mirrored by focus-within. Verified no
-horizontal scroll at 375px.
-
-**Motion:** every animation (ink flecks, easter egg, scroll hint, card
-transitions) is disabled under `@media (prefers-reduced-motion: reduce)`.
+- Refinement: darker charcoal background, navigation ends before the roses, locally hosted Pinyon Script/The Nautigal fonts, worn paper texture and torn binding mask. Asset provenance: `design-mockups/notebook-refinement-assets.md`.
+- Palette variables: `--bg`, `--text`, `--muted`, `--paper`, `--ink`, `--wine`.
+- Wispy artist-name image artwork with screen blending; centered tagline tucked beneath the name; smoky charcoal background; stronger red collection numbers; thin date/status rules on collection cards; custom Lexi Notebook Regular collection titles and Bold featured title; small notebook-script note with a red broken-heart outline beside the rose; Georgia reading text. Font source, coverage, and rebuild notes: `fonts/lexi-notebook/README.md`.
+- Lyrics/About navigation uses `aria-current` and a red underline, updated for clicks, browser history, and individual song links.
+- `assets/notebook-hero.webp` and `assets/notebook-pressed-rose.webp` were generated from the approved mockup. Prompts/method: `design-mockups/notebook-asset-prompts.md`. All paper styling and visible wording remain live HTML/CSS.
+- Desktop: featured paper plus six-song sidebar; full collection in two columns. Below 800px the sidebar moves below the feature; below 560px collection cards stack.
+- `FEATURED_SONG` and `SIDEBAR_LIMIT` in main.js control the opening section. The feature retains its canonical share slug; its duplicate in the full collection uses an `archive-` ID. Both share buttons use the same canonical URL.
+- Search covers titles, lyrics, years and stories. It never removes the feature/sidebar. Sidebar navigation clears search so linked songs remain visible.
+- Name artwork and fixed-size torn binding holes: see `design-mockups/name-artwork-prompts.md`. The hole mask scales uniformly on phones to preserve round punches.
+- One card opens at a time. Hidden panels use inert and aria-hidden. Opening animates; closing is immediate. Reduced-motion disables the animation and ink flecks.
 
 ---
 
-## 8. Ownership / timestamping system (FreeTSA)
+## 8. Ownership evidence and timestamping
 
-This is the "prove the lyrics are mine" half of the project. Two layers:
+See [EVIDENCE.md](EVIDENCE.md) for the complete workflow. `scripts/lyric-evidence.ps1` provides shared PowerShell 5.1-compatible verification and packaging. `timestamp-songs.ps1` archives existing proofs or requests verified new stamps; intentional edits require `-Restamp` and a complete previous snapshot. Signature and certificate errors stop the process and are never treated as edits. Candidates are verified before atomic replacement; prior packages remain intact.
 
-1. **GitHub commit history** — public, dated, but soft (commit dates come from the
-   owner's own clock, can be altered).
-2. **FreeTSA RFC 3161 trusted timestamps** — hard proof. `timestamp-songs.ps1` hashes
-   each song (SHA-256) and gets an independently-signed `.tsr` token proving the file
-   existed at that moment. **Only the hash is sent — lyrics never leave the machine.**
-   Cannot be backdated. Anyone can verify with the certs in `timestamps/`.
+Every version under `timestamps/evidence/` contains exact lyric bytes, proof, certificates, and a manifest. `check-before-publish.ps1` is read-only/offline and fails on missing, edited, or invalid evidence. The prepared workflow gates its deployment on verification and explicit manual publishing. See PUBLISHING.md: branch-based Pages must be switched to GitHub Actions before a release push. The owner confirmed switching the Pages source to GitHub Actions during release preparation.
 
-**`timestamp-songs.ps1` behavior:**
-- Auto-locates OpenSSL: PATH → Git-for-Windows install (derived from `git.exe`
-  location, works on any drive) → common C: paths.
-- Downloads FreeTSA `cacert.pem` + `tsa.crt` once into `timestamps/`.
-- Reads the song list out of `songs.js` (regex for `"...txt"`).
-- For each song: skips if already stamped & unchanged; flags edited songs;
-  `-Restamp` archives the old token as `*.superseded-YYYY-MM-DD.tsr` and re-stamps.
-- Verify command (also in `timestamps/README.txt`):
-  `openssl ts -verify -data songs/<song>.txt -in timestamps/<song>.tsr -CAfile timestamps/cacert.pem -untrusted timestamps/tsa.crt` → `Verification: OK`.
+`.gitattributes` preserves exact stamped bytes. The publishing preparation stages the documented Git line-ending migration because historical Git blobs use LF while the existing stamps match local CRLF bytes; include it in the first release commit. Do not rewrite or normalize stamped files.
 
-**THE GOLDEN RULE:** a timestamp matches a file's *exact bytes*. Stamp songs when
-finished. Editing a song invalidates its token — re-stamp with `-Restamp`; keep the
-old token (it still proves the old version's date). A timestamp proves *existence by
-a date*, not *authorship*.
+`backup-lyric-evidence.ps1` creates and reopens a versioned ZIP, verifies its entries, and writes a SHA-256 checksum. The user chose `evidence/` inside this repository; it is ignored by Git and requires `-AllowInsideRepository`. This is local recovery storage, not independent backup. Keep private drafts outside served folders. Tests use isolated copies and simulated transport; real signatures are checked with OpenSSL.
 
-**Hard-won gotchas baked into the script (don't reintroduce these bugs):**
-- **OpenSSL 3 cannot handle file paths/filenames containing spaces** (it parses them
-  as URIs). The script `Push-Location`s into the site folder and uses short relative
-  paths; song **filenames must be space-free** (use hyphens). The script warns on a
-  spaced filename.
-- **`.ps1` must stay pure ASCII** for Windows PowerShell 5.1 — a stray em-dash/curly
-  quote causes "string is missing the terminator" parser errors. Use plain ASCII
-  punctuation in the script.
-- **PowerShell's `Invoke-WebRequest` corrupts the binary timestamp upload/download.**
-  Use `curl.exe` (ships with Win10/11) for the FreeTSA POST instead.
-- OpenSSL prints harmless progress to stderr even on success → set
-  `$ErrorActionPreference = "Continue"` around OpenSSL calls and judge by exit code.
+Timestamps establish existence of exact bytes by the signed date, not authorship or copyright registration. Keep these claims distinct in documentation and UI.
 
 ---
 
@@ -259,14 +208,13 @@ DOM/computed-style assertions to verify behavior when that happens.
 
 ## 10. Deployment (GitHub Pages)
 
-Full step-by-step is in `README.md`. Key points:
-- **Done:** the repo is initialized in this folder (never at its parent) and pushed
-  to `https://github.com/aroble11/lexi-song-lyric-website`, branch `main`.
-- The repo must stay **public** (public history is what makes the evidence visible).
-- Settings → Pages → deploy from branch `main`, root folder. Expected URL:
-  `https://aroble11.github.io/lexi-song-lyric-website/`.
-- Publishing an update = commit in GitHub Desktop → **Push origin**; the live site
-  refreshes within a couple of minutes.
+Release instructions are in `PUBLISHING.md`. The repository is local to this
+folder, with origin `https://github.com/aroble11/lexi-song-lyric-website` and branch
+`main`. The prepared workflow validates evidence, packages only allowlisted public
+files, and deploys only on an explicit manual run after verification succeeds.
+Before a release push, change Pages' source to **GitHub Actions**; the old
+branch-based source operates independently. The owner confirmed this Pages source change during release preparation.
+Expected site URL: `https://aroble11.github.io/lexi-song-lyric-website/`.
 
 ---
 
@@ -296,7 +244,7 @@ this). Keep it self-contained.
 
 From an earlier brainstorm; the owner picked shareable links, story notes, cursor
 glow, About section, and the easter egg (all done). Still on the table if asked:
-- **Live search/filter box** (filter cards by title/lyrics as you type) — most useful
+- **Search is implemented** (title/lyrics/year/story); future refinements may be useful
   once the catalog grows past ~15 songs.
 - **"Favorite line" pull-quote** — optional `Favorite:` header line shown glowing on
   the closed card face instead of / alongside the teaser.

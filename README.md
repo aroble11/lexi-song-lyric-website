@@ -16,7 +16,7 @@ lexi-song-lyric-website/
 ├── songs.js            ← ★ THE LIST: which songs appear, in what order
 ├── songs/              ← ★ THE LYRICS: one plain-text file per song
 ├── assets/             ← background photo, share-preview card, favicon
-├── fonts/              ← the two local fonts (Lovers Quarrel, Mathilde)
+├── fonts/              ← local calligraphy fonts and licenses
 ├── timestamps/         ← proof-of-date tokens (see "Proving ownership")
 ├── timestamp-songs.ps1 ← script that creates those tokens
 ├── EDITING.md          ← where-to-edit guide for every part of the site
@@ -35,14 +35,20 @@ Open `index.html` and search for **`EDIT ME`** — the spots are:
 2. Your artist/display name in the hero
 3. The tagline under your name
 4. Your bio in the About section
-5. Your social/contact links in the About section (replace the `#` placeholders,
-   delete any you don't use)
+5. Your social/contact links in the About section (add real links under
+   `EDIT ME: CONTACT LINKS`, then remove `hidden` from that list)
 6. Your name in the footer copyright line
 
 Then replace the two example songs (below) with real ones.
 
 ## Neat tricks built into the page
 
+- **Notebook layout:** Monsters is featured, with six other songs in the sidebar.
+  **View all lyrics (N)** leads to the complete collection, searchable by title, lyrics, year, or story.
+- **Comfortable reading:** paper cards expand in place; opened collection cards span the grid.
+  Lyrics and story notes use the notebook's serif reading font.
+- **Keyboard access:** closed panels keep their lyrics and copy buttons out
+  of keyboard navigation and the accessibility tree until opened.
 - **Share one song:** open a card and the address bar updates to a direct link
   (like `...#neon-veins`) — or use the "copy link" button inside the open card.
   Anyone visiting that link lands with that song already open.
@@ -112,51 +118,23 @@ On the live GitHub Pages site this is a non-issue — it just works.
 
 ---
 
-## Putting it on GitHub (and getting the free website)
+## Publishing the website
 
-> **Important:** the repository is **this folder only** (`lyrics-site/`), not the
-> parent folder it sits in.
+See [PUBLISHING.md](PUBLISHING.md). The prepared workflow verifies the lyric evidence and builds an explicit public-file package before a dependent deployment job can run. Publishing is a separate manual action. Before the release is pushed, GitHub Pages must be switched to **GitHub Actions**; branch-based publishing bypasses the prepared gate.
 
-1. **GitHub Desktop** → *File → New repository…* → set **Local path** to the folder
-   that *contains* `lyrics-site` and **Name** to `lyrics-site` (Desktop joins them),
-   or use *File → Add local repository* and pick this folder, letting it create the repo here.
-2. Commit everything, then click **Publish repository**. **Untick "Keep this code
-   private"** — a public repo is what makes your dated history visible to others.
-3. On github.com, open the repo → **Settings → Pages** → under *Build and deployment*
-   choose **Deploy from a branch**, branch `main`, folder `/ (root)` → **Save**.
-4. After a minute or two your site is live at
-   `https://YOURUSERNAME.github.io/lyrics-site/`.
-
-From then on, publishing an update = commit in GitHub Desktop → **Push origin**.
-The site refreshes itself within a couple of minutes.
+Local preparation does not publish. Run `./prepare-site.ps1` to create a fresh `_site/` folder containing only the website files.
 
 ---
 
 ## Proving ownership
 
-Three layers, weakest to strongest:
+The site and Git history support your authorship record. FreeTSA timestamps independently certify when exact lyric-file bytes existed; they do not independently prove authorship or register copyright.
 
-1. **The public site + git history.** Every commit is dated and public. Good
-   supporting evidence, but commit dates come from your own computer's clock.
-2. **Trusted timestamps (this repo includes the tooling).** Run:
+Every stamped version now has its own exact lyrics, signed proof, certificates, and manifest under `timestamps/evidence/`. Run `timestamp-songs.ps1` for new songs, or add `-Restamp` for intentional changes. Prior packages are retained, and failed requests do not replace valid proofs.
 
-   ```powershell
-   .\timestamp-songs.ps1
-   ```
+Before publishing, run `check-before-publish.ps1`. It is offline/read-only and exits with failure for edited, missing, or invalid evidence. The prepared publishing workflow requires verification before deployment; see PUBLISHING.md for the separate activation step.
 
-   For each song it asks **FreeTSA.org** (a free, independent timestamping authority)
-   to sign a statement that your exact file existed at that moment. The signed proof
-   is saved as `timestamps/<song>.tsr`. **Your lyrics never leave your computer** —
-   only a SHA-256 fingerprint is sent. Commit and push the `.tsr` files afterward.
-
-   - **The golden rule:** a timestamp matches the file's *exact bytes*. Stamp songs
-     when they're finished. If you edit one later, run
-     `.\timestamp-songs.ps1 -Restamp` — it keeps the old token (still valid proof of
-     the old version) and stamps the new one.
-   - Anyone can verify a token — see `timestamps/README.txt` for the one-line command.
-   - Honest caveat: a timestamp proves the file *existed by a date*, not who wrote it.
-3. **US Copyright Office registration** (later, for songs you really care about).
-   Registration is what unlocks the ability to sue and statutory damages in the US.
+See [EVIDENCE.md](EVIDENCE.md) for the one-time Git byte-preservation migration, backup commands, private draft guidance, and verification details. The user-selected `evidence/` folder contains ignored local recovery ZIPs; it is not an independent backup or a private web-server boundary.
 
 ### Copyright notice
 

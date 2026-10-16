@@ -25,6 +25,11 @@
 
 "use strict";
 
+// ★ TWEAK: FEATURED SONG — use an exact filename from songs.js.
+const FEATURED_SONG = "01-monsters.txt";
+const SIDEBAR_LIMIT = 6;
+let collectionEntries = [];
+
 /* ------------------------------------------------------------
    STEP 1 — parse one song file's text into a usable object.
 
@@ -73,6 +78,7 @@ function parseSong(rawText, filename) {
   const lyricsText = hasRealHeader ? lyricsPart : text;
 
   return {
+    filename,
     // If there's no Title: line, fall back to the filename so
     // the card is never blank.
     title: header.title || filename.replace(/\.txt$/, ""),
@@ -147,16 +153,44 @@ function buildLyricsElement(lyricsText) {
    Using a real <button> means keyboards (Tab + Enter/Space)
    and screen readers work without any extra code.
    ------------------------------------------------------------ */
-function buildCard(song, index) {
+function buildCard(song, index, featured = false) {
   const card = document.createElement("article");
-  card.className = "song-card";
+  card.className = featured ? "song-card featured-card" : "song-card";
   // The card's id IS the share link target: visiting the page
   // as ...#example-song-one finds this card and opens it.
   card.id = song.slug;
+  card.dataset.songSlug = song.slug;
+
+  const cover = document.createElement("div");
+  cover.className = "card-cover";
+  const meta = document.createElement("div");
+  meta.className = "card-meta";
+  if (featured) {
+    const start = document.createElement("span");
+    start.className = "featured-label";
+    start.textContent = "Start here";
+    meta.appendChild(start);
+  }
+  const date = document.createElement("span");
+  date.textContent = song.year;
+  meta.appendChild(date);
+  if (!featured && song.status) {
+    const rule = document.createElement("span");
+    rule.className = "card-meta-rule";
+    rule.setAttribute("aria-hidden", "true");
+    meta.appendChild(rule);
+    const status = document.createElement("span");
+    status.className = "song-status";
+    status.textContent = song.status;
+    meta.appendChild(status);
+  }
+  cover.appendChild(meta);
 
   // --- the clickable top part -------------------------------
   const toggle = document.createElement("button");
+  toggle.type = "button";
   toggle.className = "card-toggle";
+  toggle.setAttribute("aria-label", "Read lyrics: " + song.title);
   toggle.setAttribute("aria-expanded", "false");
   // Connects the button to the panel it controls (accessibility).
   toggle.setAttribute("aria-controls", "lyrics-panel-" + index);
@@ -164,17 +198,7 @@ function buildCard(song, index) {
   const title = document.createElement("h2");
   title.className = "card-title";
   title.textContent = song.title;
-  toggle.appendChild(title);
-
-  // The little "2026 · finished" chip line. Only shown if the
-  // song file actually had Year/Status lines.
-  const chipText = [song.year, song.status].filter(Boolean).join(" · ");
-  if (chipText) {
-    const chips = document.createElement("p");
-    chips.className = "card-chips";
-    chips.textContent = chipText;
-    toggle.appendChild(chips);
-  }
+  cover.appendChild(title);
 
   // ★ TWEAK: TEASER — the closed card previews the first 2 real
   // lyric lines (skipping blanks and [Section] markers). Change
@@ -187,18 +211,47 @@ function buildCard(song, index) {
   if (teaserLines.length > 0) {
     const teaser = document.createElement("p");
     teaser.className = "card-teaser";
-    teaser.textContent = teaserLines.join(" / ");
-    toggle.appendChild(teaser);
+    teaserLines.forEach((line) => {
+      const excerpt = document.createElement("span");
+      excerpt.textContent = line;
+      teaser.appendChild(excerpt);
+    });
+    cover.appendChild(teaser);
   }
 
-  // The +/× icon in the corner (rotates via CSS when open).
+  // The arrow indicates whether this button opens or closes the paper.
   const icon = document.createElement("span");
   icon.className = "expand-icon";
   icon.setAttribute("aria-hidden", "true"); // decorative only
-  icon.textContent = "+";
+  icon.textContent = "→";
+  const toggleLabel = document.createElement("span");
+  toggleLabel.className = "toggle-label";
+  toggleLabel.textContent = "Read the lyrics";
+  toggle.appendChild(toggleLabel);
   toggle.appendChild(icon);
 
-  card.appendChild(toggle);
+  cover.appendChild(toggle);
+  if (featured) {
+    const decoration = document.createElement("div");
+    decoration.className = "pressed-flower";
+    decoration.setAttribute("aria-hidden", "true");
+    const rose = document.createElement("img");
+    rose.src = "assets/notebook-pressed-rose.webp";
+    rose.alt = "";
+    rose.width = 512;
+    rose.height = 1536;
+    const note = document.createElement("span");
+    note.className = "margin-note";
+    // ★ TWEAK: MARGIN NOTE — notebook lettering beside the rose.
+    note.textContent = "trapped\nin my\nhead";
+    const heart = document.createElement("img");
+    heart.src = "assets/heart-broken.svg?v=red-outline-2";
+    heart.alt = "";
+    heart.className = "paper-heart";
+    decoration.append(rose, note, heart);
+    cover.appendChild(decoration);
+  }
+  card.appendChild(cover);
 
   // --- the expanding part with the full lyrics ---------------
   // Two nested divs is the trick that lets CSS animate the
@@ -206,6 +259,10 @@ function buildCard(song, index) {
   const panel = document.createElement("div");
   panel.className = "lyrics-panel";
   panel.id = "lyrics-panel-" + index;
+  // Closed panels must not expose invisible buttons or lyrics to
+  // keyboards/screen readers. CSS alone only shrinks their height.
+  panel.inert = true;
+  panel.setAttribute("aria-hidden", "true");
 
   const panelInner = document.createElement("div");
   panelInner.className = "lyrics-panel-inner";
@@ -278,31 +335,50 @@ function buildCard(song, index) {
   });
 
   actions.appendChild(copyBtn);
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "close-song-btn";
+  closeBtn.textContent = "Close lyrics ↑";
+  closeBtn.addEventListener("click", () => toggle.click());
+  actions.appendChild(closeBtn);
   panelInner.appendChild(actions);
 
   panel.appendChild(panelInner);
   card.appendChild(panel);
 
+  // The browser can adjust scrolling while the opening animation
+  // changes the page height. Align once more when it has settled,
+  // but only if this card's toggle still has the visitor's focus.
+  panel.addEventListener("transitionend", (event) => {
+    if (event.target === panel && event.propertyName === "grid-template-rows" &&
+        card.classList.contains("open") && document.activeElement === toggle) {
+      card.scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  });
+
   // --- open/close behavior ----------------------------------
   toggle.addEventListener("click", () => {
+    const isOpen = !card.classList.contains("open");
     // ★ TWEAK: ONE-AT-A-TIME — only one card may be open at a time:
     // before toggling this one, collapse any OTHER card that's
     // currently expanded. (Delete this forEach block if you'd
     // rather let several cards stay open at once.)
     document.querySelectorAll(".song-card.open").forEach((openCard) => {
       if (openCard !== card) {
-        openCard.classList.remove("open");
-        // Keep the collapsed card's button state honest for
-        // screen readers too.
-        openCard
-          .querySelector(".card-toggle")
-          .setAttribute("aria-expanded", "false");
+        setCardOpen(openCard, false);
       }
     });
 
-    const isOpen = card.classList.toggle("open");
-    // aria-expanded tells screen readers the current state.
-    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    setCardOpen(card, isOpen);
+
+    // Spanning the grid (or closing another long song) can move this
+    // card. Keep its heading in view after the layout has updated.
+    requestAnimationFrame(() => {
+      const top = card.getBoundingClientRect().top;
+      if (isOpen || top < 0 || top > window.innerHeight - 120) {
+        card.scrollIntoView({ block: "start", behavior: "instant" });
+      }
+    });
 
     // Keep the address bar in sync: opening a song puts its
     // share link in the URL, closing it cleans the URL back up.
@@ -314,9 +390,42 @@ function buildCard(song, index) {
         null, "", window.location.pathname + window.location.search
       );
     }
+    updateNavigation();
   });
 
   return card;
+}
+
+// Use the same state update for clicks AND incoming song links. This
+// prevents a card looking open while its lyrics are still inaccessible.
+function setCardOpen(card, isOpen) {
+  const toggle = card.querySelector(".card-toggle");
+  const panel = card.querySelector(".lyrics-panel");
+  if (!isOpen && panel.contains(document.activeElement)) {
+    toggle.focus({ preventScroll: true });
+  }
+  card.classList.toggle("open", isOpen);
+  toggle.setAttribute("aria-expanded", String(isOpen));
+  toggle.querySelector(".toggle-label").textContent = isOpen ? "Close the lyrics" : "Read the lyrics";
+  toggle.setAttribute("aria-label", (isOpen ? "Close lyrics: " : "Read lyrics: ") + card.querySelector(".card-title").textContent);
+  toggle.querySelector(".expand-icon").textContent = isOpen ? "↑" : "→";
+  panel.inert = !isOpen;
+  panel.setAttribute("aria-hidden", String(!isOpen));
+}
+
+// Keep navigation current for anchor clicks, pasted links, and browser history.
+// Song actions call this explicitly because replaceState emits no hashchange.
+function updateNavigation() {
+  const active = location.hash === "#about" ? "#about" : "#songs";
+  document.querySelectorAll(".site-nav .section-link").forEach(link => {
+    if (link.getAttribute("href") === active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+}
+
+function setUpNavigation() {
+  updateNavigation();
+  window.addEventListener("hashchange", updateNavigation);
 }
 
 /* ------------------------------------------------------------
@@ -336,6 +445,7 @@ async function loadAllSongs() {
       "typo — every line in the list needs quotes around the " +
       "filename and a comma after it.";
     grid.appendChild(errCard);
+    document.querySelector(".spotlight").hidden = true;
     return;
   }
 
@@ -375,6 +485,7 @@ async function loadAllSongs() {
         n++;
       }
       grid.appendChild(buildCard(result.song, index));
+      collectionEntries.push({ song: result.song, card: grid.lastElementChild });
     } else {
       anyFailed = true;
       // Show a small error card so a typo in songs.js is easy
@@ -387,6 +498,8 @@ async function loadAllSongs() {
       grid.appendChild(errCard);
     }
   });
+
+  setUpCollection();
 
   // Special case: opening index.html by double-clicking it uses
   // the file:// protocol, where browsers block fetch() entirely.
@@ -417,10 +530,7 @@ async function loadAllSongs() {
   if (requested) {
     const target = document.getElementById(requested);
     if (target && target.classList.contains("song-card")) {
-      target.classList.add("open");
-      target
-        .querySelector(".card-toggle")
-        .setAttribute("aria-expanded", "true");
+      setCardOpen(target, true);
 
       // TIMING GOTCHA: the cards don't exist yet when the browser
       // does its own scroll-to-#fragment during page load, so that
@@ -440,6 +550,97 @@ async function loadAllSongs() {
       }
     }
   }
+}
+
+// Build the featured paper and six links from the same source list as the
+// full collection. Adding a song only requires songs.js + its text file.
+function setUpCollection() {
+  const host = document.getElementById("featured-song");
+  host.replaceChildren();
+  const featured = collectionEntries.find(({ song }) => song.filename === FEATURED_SONG);
+  if (featured) {
+    // The featured paper owns the original share URL. Its archive copy gets
+    // a distinct id; both copy buttons still share the canonical song URL.
+    let archiveId = "archive-" + featured.song.slug;
+    while (document.getElementById(archiveId)) archiveId += "-copy";
+    featured.card.id = archiveId;
+    host.appendChild(buildCard(featured.song, "featured", true));
+  } else {
+    host.hidden = true;
+    document.querySelector(".spotlight").classList.add("without-feature");
+  }
+
+  const links = document.getElementById("collection-links");
+  collectionEntries.filter(entry => entry !== featured).slice(0, SIDEBAR_LIMIT).forEach(({ song }, index) => {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = "#" + song.slug;
+    const number = document.createElement("span");
+    number.className = "collection-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+    number.setAttribute("aria-hidden", "true");
+    const title = document.createElement("span");
+    title.className = "collection-name";
+    title.textContent = song.title;
+    const year = document.createElement("span");
+    year.className = "collection-year";
+    year.textContent = song.year;
+    link.append(number, title, year);
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      resetSearch();
+      openSongLink(song.slug, true);
+      history.replaceState(null, "", "#" + song.slug);
+      updateNavigation();
+    });
+    item.appendChild(link);
+    links.appendChild(item);
+  });
+  document.getElementById("view-all").textContent = "View all lyrics (" + collectionEntries.length + ") →";
+  document.getElementById("view-all").addEventListener("click", resetSearch);
+  document.getElementById("search-controls").hidden = collectionEntries.length === 0;
+  document.getElementById("song-search").addEventListener("input", filterSongs);
+  document.getElementById("clear-search").addEventListener("click", () => {
+    resetSearch();
+    document.getElementById("song-search").focus();
+  });
+  filterSongs();
+
+  // Also support links pasted into an already-open page and browser history.
+  window.addEventListener("hashchange", () => {
+    try { openSongLink(decodeURIComponent(location.hash.slice(1)), false); } catch (err) { /* malformed link */ }
+  });
+}
+
+function filterSongs() {
+  const query = document.getElementById("song-search").value.trim().toLocaleLowerCase();
+  let count = 0;
+  collectionEntries.forEach(({ song, card }) => {
+    const matches = [song.title, song.year, song.lyrics, song.story].join(" ").toLocaleLowerCase().includes(query);
+    if (!matches && card.classList.contains("open")) setCardOpen(card, false);
+    card.hidden = !matches;
+    if (matches) count++;
+  });
+  document.getElementById("clear-search").hidden = !query;
+  document.getElementById("search-status").textContent = query ? count + " of " + collectionEntries.length + " songs" : collectionEntries.length + " original songs";
+  document.getElementById("no-results").hidden = count !== 0;
+}
+
+function resetSearch() {
+  document.getElementById("song-search").value = "";
+  filterSongs();
+}
+
+function openSongLink(slug, moveFocus) {
+  const card = document.getElementById(slug);
+  if (!card || !card.classList.contains("song-card")) return;
+  resetSearch();
+  document.querySelectorAll(".song-card.open").forEach(other => {
+    if (other !== card) setCardOpen(other, false);
+  });
+  setCardOpen(card, true);
+  if (moveFocus) card.querySelector(".card-toggle").focus({ preventScroll: true });
+  requestAnimationFrame(() => card.scrollIntoView({ block: "start", behavior: "instant" }));
 }
 
 /* ------------------------------------------------------------
@@ -571,6 +772,7 @@ function setUpEasterEgg() {
 
 // Kick everything off once the page's HTML has been parsed.
 document.addEventListener("DOMContentLoaded", () => {
+  setUpNavigation();
   loadAllSongs();
   setUpCursorGlow();
   setUpSparkles();

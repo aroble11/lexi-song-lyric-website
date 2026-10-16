@@ -1,6 +1,19 @@
 # Claude Code local workspace config (dev-only, machine-specific)
 .claude/
 
+# Temporary proof requests / writer lock / isolated tests. Never publish these.
+timestamps/.pending-*
+timestamps/.evidence.lock
+timestamps/evidence/**/.pending-*/
+.evidence-test-*/
+# Safety net only: private drafts belong OUTSIDE this web-served repository.
+private-drafts/
+private-backups/
+# User-selected local recovery ZIPs; this is not a web-server access restriction.
+/evidence/
+/_site/
+/.publish-test-*/
+
 # Source material kept locally — the site uses the compressed .webp copy,
 # and this 2.4MB original would bloat the repo forever if committed.
 assets/background_inspiration.png

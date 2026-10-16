@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "06-invisible-reflection.txt",
+    "title":  "Invisible Reflection",
+    "timestampUtc":  "2026-06-20T21:03:47Z",
+    "packagedUtc":  "2026-10-16T00:40:30.9073698+00:00",
+    "files":  {
+                  "lyrics.txt":  "4eadbad24601b1471899d0783b694a9ae40b7553208332d93e7d34846119341b",
+                  "proof.tsr":  "4ab24fc2a4f1e42a9de770f7a75059021b62bc180119d9dd2b047fc8d6873619",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

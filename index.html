@@ -35,13 +35,13 @@
   <meta property="og:image:alt" content="Lexi Robles — original song lyrics. The name handwritten over dark roses and broken glass.">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Fonts: Permanent Marker (name + titles), Caveat (handwriting
-       accents), Courier Prime (typed lyric-sheet body + labels) -->
+  <!-- Caveat for the handwritten margin note; song-title fonts are local. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="fonts/lexi-notebook/LexiNotebook-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=notebook-smoke-wisps-4">
 </head>
 <body>
 
@@ -51,25 +51,31 @@
        behind the content, and never catches clicks. How it scales
        across screen sizes is set on .bg-photo in styles.css.
        ============================================================ -->
+  <a class="skip-link" href="#songs">Skip to the lyrics</a>
   <div class="bg-photo" aria-hidden="true"></div>
+  <div class="site-shell">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="wordmark" href="#top">LEXI'S LYRIC VAULT</a>
+    <span class="nav-rule" aria-hidden="true"></span>
+    <a class="section-link" href="#songs" aria-current="location">Lyrics</a>
+    <a class="section-link" href="#about">About</a>
+  </nav>
 
   <!-- ============================================================
        HERO — the big intro section at the top of the page
        ============================================================ -->
-  <header class="hero">
-    <p class="hero-eyebrow">LEXI'S LYRIC VAULT · ORIGINAL WORKS</p>
+  <header class="hero" id="top">
+    <img class="hero-roses" src="assets/notebook-hero.webp" alt="" aria-hidden="true" width="1536" height="1024" fetchpriority="high">
 
-    <!-- ▼▼ EDIT ME: your artist / display name ▼▼ -->
-    <!-- (Title case on purpose — the Lovers Quarrel script reads
-         best this way, not in ALL CAPS.) -->
-    <h1><span class="accent">Lexi</span> Robles</h1>
+    <!-- Artist-name artwork follows the approved mockup; the hidden text
+         preserves a readable heading for assistive technology. -->
+    <h1><span class="sr-only">Lexi Robles</span><img class="name-artwork" src="assets/lexi-robles-wispy.webp" alt="" aria-hidden="true" width="2226" height="706" fetchpriority="high"></h1>
     <!-- ▲▲ EDIT ME ▲▲ -->
 
     <!-- ▼▼ EDIT ME: a one-line tagline that sounds like you ▼▼ -->
-    <p class="tagline">Writing song lyrics since 2007. <br>Tap a card to read the whole thing.</p>
+    <p class="tagline">Writing song lyrics since 2007</p>
     <!-- ▲▲ EDIT ME ▲▲ -->
 
-    <a class="scroll-hint" href="#songs" aria-label="Scroll down to the songs">▼</a>
   </header>
 
   <!-- ============================================================
@@ -77,10 +83,33 @@
        You never edit this part by hand; add songs in songs.js
        and the songs/ folder instead (see README).
        ============================================================ -->
-  <main id="songs" aria-label="Song lyrics">
+  <main aria-label="Song lyrics">
+    <div class="spotlight">
+      <section id="featured-song" aria-label="Featured song">
+        <p class="loading-note">Opening the notebook…</p>
+      </section>
+      <aside class="collection-sidebar" aria-labelledby="sidebar-title">
+        <div class="sidebar-heading">
+          <h2 id="sidebar-title">The collection</h2>
+        </div>
+        <ol id="collection-links" class="collection-links"></ol>
+        <a class="view-all" href="#songs" id="view-all">View all lyrics <span aria-hidden="true">→</span></a>
+      </aside>
+    </div>
+    <section id="songs" class="full-collection" aria-labelledby="collection-title">
+      <div class="collection-toolbar">
+        <div><p class="eyebrow">Pages from the notebook</p><h2 id="collection-title">All the lyrics</h2></div>
+        <div id="search-controls" class="search-controls" hidden>
+          <label for="song-search">Find a song</label>
+          <div class="search-field"><input type="search" id="song-search" placeholder="Search titles or lyrics…" autocomplete="off" aria-controls="lyrics-grid"><button type="button" id="clear-search" hidden>Clear</button></div>
+        </div>
+      </div>
+      <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
     <div id="lyrics-grid" class="lyrics-grid">
       <!-- Cards are inserted here by main.js -->
     </div>
+      <p id="no-results" class="no-results" hidden>No songs match your search. Try another word or clear the search.</p>
+    </section>
 
     <!-- Shown only if the visitor has JavaScript turned off.
          (The link goes to the GitHub repo, not the local songs/
@@ -106,18 +135,14 @@
     <p class="about-text">
       This website is a collection of my original song lyrics. I write about
       the complexities of human relationships and the emotions that come with them. 
-      If something here hits, or you want to put music to it, reach out.
     </p>
     <!-- ▲▲ EDIT ME ▲▲ -->
 
-    <!-- ▼▼ EDIT ME: swap each "#" for your real link, and delete any
-         entries you don't use. For email, the link looks like:
-         href="mailto:you@example.com" ▼▼ -->
-    <ul class="social-links">
-      <li><a href="#">Instagram: COMING SOON</a></li>
-      <li><a href="#">TikTok: COMING SOON</a></li>
-      <li><a href="#">YouTube: COMING SOON</a></li>
-      <li><a href="#">Email: COMING SOON</a></li>
+    <!-- ▼▼ EDIT ME: CONTACT LINKS — add only real destinations here.
+         Once you have added a link, remove hidden from the ul below.
+         Example: <li><a href="mailto:you@example.com">Email Lexi</a></li>
+         You can then add your collaboration invitation back to the bio. ▼▼ -->
+    <ul class="social-links" hidden>
     </ul>
     <!-- ▲▲ EDIT ME ▲▲ -->
   </section>
@@ -130,11 +155,12 @@
     <p>&copy; 2026 LEXI ROBLES <span class="dot">·</span> All rights reserved</p>
     <!-- ▲▲ EDIT ME ▲▲ -->
     <p class="footer-small">All lyrics on this site are original works. Do not reproduce without permission.</p>
-    <p class="footer-small">Fonts: <a href="https://www.1001fonts.com/lovers-quarrel-font.html" target="_blank" rel="noopener">Lovers Quarrel</a> by Laura Worthington, licensed under <a href="https://scripts.sil.org/OFL" target="_blank" rel="noopener">SIL Open Font License</a> &middot; <a href="https://www.1001fonts.com/mathilde-font.html" target="_blank" rel="noopener">Mathilde</a> by CloutierFontes, licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></p>
+    <p class="footer-small">Song-title lettering: Lexi Notebook, created for this collection.</p>
   </footer>
+  </div>
 
   <!-- songs.js lists WHICH songs to show; main.js does the loading and building -->
   <script src="songs.js"></script>
-  <script src="main.js"></script>
+  <script src="main.js?v=notebook-smoke-3"></script>
 </body>
 </html>

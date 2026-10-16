@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lexi Notebook — font specimen</title>
+<style>
+@font-face{font-family:Notebook;src:url(LexiNotebook-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Notebook;src:url(LexiNotebook-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
+*{box-sizing:border-box}body{margin:0;background:#111211;color:#eadfce;font:16px Georgia,serif;padding:32px}main{max-width:1100px;margin:auto}h1{font:32px Georgia,serif;margin:0 0 12px}p{line-height:1.6}a{color:inherit}label{display:block;margin:24px 0 8px}input{width:100%;font:18px Georgia;padding:14px;background:#f2e7d4;border:1px solid #ad9882;color:#3e3029}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}.sheet{background:#eee2ce;color:#672c30;padding:24px 32px;min-width:0}.label{font:12px Georgia;letter-spacing:.12em;text-transform:uppercase;color:#6f5a50}.sample{font:64px/1.45 Notebook;overflow-wrap:anywhere;margin:15px 0}.bold{font-weight:700}.alphabet{font-size:46px}.large{font-size:100px}.note{color:#b9aaa0;font-size:14px}@media(max-width:700px){body{padding:18px}.grid{grid-template-columns:1fr}.sample{font-size:48px}.large{font-size:76px}.sheet{padding:20px}.alphabet{font-size:36px}}
+</style><main>
+<h1>Lexi Notebook</h1><p>Two custom weights for your song titles. Type a future title to compare them.</p>
+<label for="title">Try a song title</label><input id="title" value="Till My Very Last Day" maxlength="160">
+<div class="grid"><section class="sheet"><h2 class="label">Regular · collection songs</h2><p class="sample live">Till My Very Last Day</p><p class="sample">Unrequited Love</p></section><section class="sheet"><h2 class="label">Bold · headliner song</h2><p class="sample bold live">Till My Very Last Day</p><p class="sample bold large">Monsters</p></section></div>
+<section class="sheet"><h2 class="label">Character specimen · regular</h2><p class="sample alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &amp; ! ? “ ” ‘ ’ ( ) — …<br>ÁÉÍÓÚ áéíóú Ññ Üü Çç</p><p class="sample">The quiet sky remembers you<br>Wildflowers &amp; Broken Promises<br>I'll Find You Again — 2027</p></section>
+<p><a href="LexiNotebook-Regular.ttf" download>Download Regular TTF</a> · <a href="LexiNotebook-Bold.ttf" download>Download Bold TTF</a> · <a href="../../">Back to the website</a></p><p class="note">Original vector lettering inspired by the approved notebook mockup; a recreation, not an extracted original font. Basic Latin, numbers, common punctuation, and common accented Latin letters are included.</p>
+</main><script>document.querySelector('#title').addEventListener('input',event=>document.querySelectorAll('.live').forEach(node=>node.textContent=event.target.value||'Your next song'));</script></html>

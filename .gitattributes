@@ -1,0 +1,6 @@
+# Timestamped content must retain its exact bytes, including line endings.
+songs/*.txt -text
+timestamps/*.tsr -text
+timestamps/*.crt -text
+timestamps/*.pem -text
+timestamps/evidence/** -text

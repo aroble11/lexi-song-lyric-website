@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "01-monsters.txt",
+    "title":  "Monsters",
+    "timestampUtc":  "2026-06-20T21:03:45Z",
+    "packagedUtc":  "2026-10-16T00:40:28.5882835+00:00",
+    "files":  {
+                  "lyrics.txt":  "9c5caca50ae22ec995eedb4be0d83a6c973c9bfde7a0fdbc35376fe440a9b1fb",
+                  "proof.tsr":  "8d2a5596a1cc0ab98f8f04df08d18800e3c0fac5e0dba55d240a2d030195cd3e",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}

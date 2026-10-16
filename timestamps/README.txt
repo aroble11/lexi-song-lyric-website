@@ -1,48 +1,37 @@
-WHAT IS IN THIS FOLDER
-======================
+LYRIC EVIDENCE
+==============
 
-This folder holds cryptographic proof that the song files in ../songs/
-existed on specific dates. The proof comes from FreeTSA.org, a free,
-independent "trusted timestamping authority."
+Current *.tsr files are FreeTSA RFC 3161 timestamp responses for the
+corresponding songs/*.txt files. They certify existence of exact file
+bytes by the signed UTC date, not the identity of the writer.
 
-  *.tsr        One timestamp token per song. Each token is a signed
-               statement from FreeTSA: "a file with this exact
-               fingerprint existed at this exact date and time."
-               Tokens named *.superseded-YYYY-MM-DD.tsr are older
-               proofs kept after a song was edited and re-stamped —
-               they still prove the earlier version's date.
+Complete version packages are in evidence/<song>/<version>/:
+  lyrics.txt    Exact stamped lyric bytes, including line endings
+  proof.tsr     Original signed timestamp response
+  cacert.pem    Public trust certificate
+  tsa.crt       Public signer certificate
+  manifest.json Title, filename, signed UTC date, and SHA-256 hashes
 
-  cacert.pem   FreeTSA's public certificates. These are the same for
-  tsa.crt      everyone and are only used to VERIFY tokens. Keeping
-               copies here means the proof in this repo can be
-               checked forever, even offline.
+Old packages are retained when new versions are stamped. Do not edit
+these files. Package labels are metadata; the signed proof is the
+independent date evidence. Retain separate backups and writing history.
 
-HOW TO VERIFY A TOKEN
-=====================
+FROM THE REPOSITORY ROOT
+  .\check-before-publish.ps1
+      Offline and read-only. Missing/changed/invalid evidence exits 1.
+  .\timestamp-songs.ps1
+      Archive valid current proofs and stamp new songs.
+  .\timestamp-songs.ps1 -ArchiveOnly
+      Package existing valid proofs without network requests.
+  .\timestamp-songs.ps1 -Restamp
+      Stamp intentional edits after verifying the old version package.
 
-Anyone with OpenSSL (included with Git for Windows) can check a
-token. From the folder above this one, run:
+FROM AN INDIVIDUAL PACKAGE FOLDER
+  openssl ts -verify -data lyrics.txt -in proof.tsr -CAfile cacert.pem -untrusted tsa.crt
+  openssl ts -reply -in proof.tsr -text
 
-  openssl ts -verify -data songs/SONGNAME.txt -in timestamps/SONGNAME.tsr -CAfile timestamps/cacert.pem -untrusted timestamps/tsa.crt
+A certificate/trust verification failure is not proof of edited lyrics.
+Do not disable verification to make an error disappear. Review the cause.
 
-If the song file is byte-for-byte identical to what was stamped, it
-prints:  Verification: OK
-
-To see the date and time inside a token:
-
-  openssl ts -reply -in timestamps/SONGNAME.tsr -text
-
-WHAT THIS PROVES (AND WHAT IT DOESN'T)
-======================================
-
-A token proves the file EXISTED no later than the stamped moment.
-It cannot be backdated or forged without breaking FreeTSA's
-cryptographic signature. It does not, by itself, prove who WROTE
-the file — authorship is supported by the public site, the git
-history, and (eventually) formal copyright registration.
-
-HOW TOKENS ARE CREATED
-======================
-
-Run ..\timestamp-songs.ps1 — see the comments at the top of that
-script for full instructions.
+See ../EVIDENCE.md for backups, exact-byte Git migration, the prepublish
+workflow, private writing history, and the limits of this evidence.

@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "04-till-my-very-last-day.txt",
+    "title":  "Till My Very Last Day",
+    "timestampUtc":  "2026-06-20T21:03:47Z",
+    "packagedUtc":  "2026-10-16T00:40:29.9879159+00:00",
+    "files":  {
+                  "lyrics.txt":  "ba530ab8439292b5d2efc923b4b8587acb8a5bb9d3b6c7edab8b54c5e8635f36",
+                  "proof.tsr":  "153c3c6547e8bbf0e14b02cbd41fec26e16a5285800651eff96a632c62d1583d",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}
