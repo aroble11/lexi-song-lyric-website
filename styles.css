@@ -227,10 +227,62 @@ a:focus-visible,button:focus-visible,input:focus-visible {
   margin:0 0 12px;
   line-height:0;
 }
+.name-trigger {
+  display:block;
+  width:100%;
+  padding:0;
+  border:0;
+  margin:0;
+  background:transparent;
+  color:inherit;
+  line-height:0;
+  user-select:none;
+}
+
 .name-artwork {
   display:block;
   width:100%;
   height:auto;
+}
+
+/* Five quick name activations bring back the original secret ink/glitch effect.
+   Filters tint the image's pale strokes while keeping its black backing black. */
+.rockout .name-artwork {
+  animation:scribbleShake .5s steps(2,end) 3, nameFlash 1.6s linear both;
+}
+
+@keyframes scribbleShake {
+  0%,100% { transform:translate(0,0) rotate(0); }
+  20% { transform:translate(-3px,2px) rotate(-1deg); }
+  40% { transform:translate(3px,-2px) rotate(1deg); }
+  60% { transform:translate(-2px,-2px) rotate(-1deg); }
+  80% { transform:translate(2px,2px) rotate(1deg); }
+}
+
+@keyframes nameFlash {
+  0%,100% { filter:none; }
+  15% { filter:sepia(1) saturate(5) hue-rotate(300deg); }
+  35% { filter:sepia(1) saturate(4) hue-rotate(10deg); }
+  55% { filter:sepia(1) saturate(4) hue-rotate(150deg); }
+  75% { filter:sepia(1) saturate(4) hue-rotate(240deg); }
+}
+
+.rockout::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:99;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 30% 25%,#b3202b24,transparent 55%),
+    radial-gradient(ellipse at 72% 70%,#6e24331f,transparent 55%),
+    radial-gradient(ellipse at 50% 50%,#00000047,transparent 70%);
+  animation:inkFlash 1.6s ease-out forwards;
+}
+
+@keyframes inkFlash {
+  0%,100% { opacity:0; }
+  15% { opacity:1; }
 }
 
 .tagline {
@@ -1074,6 +1126,13 @@ a:focus-visible,button:focus-visible,input:focus-visible {
 }
 
 @media(prefers-reduced-motion:reduce) {
+  .rockout .name-artwork {
+    animation:none;
+    filter:sepia(.7) saturate(2);
+  }
+  .rockout::before {
+    display:none;
+  }
   html {
     scroll-behavior:auto;
   }

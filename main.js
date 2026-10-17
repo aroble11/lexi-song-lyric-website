@@ -733,15 +733,15 @@ function setUpSparkles() {
 /* ------------------------------------------------------------
    EASTER EGG — click the big name in the hero 5 times, fast.
    main.js puts a "rockout" class on <body> for a moment and
-   styles.css does a neon glitch freakout. Harmless fun; delete
+   styles.css animates the name artwork and a soft ink wash. Delete
    this whole block (and the .rockout styles) to remove it.
    ------------------------------------------------------------ */
 function setUpEasterEgg() {
-  const heroTitle = document.querySelector(".hero h1");
+  const heroTitle = document.querySelector(".name-trigger");
   if (!heroTitle) return;
 
-  // ★ TWEAK: EASTER EGG — 5 clicks within 1.5s (1500ms) triggers
-  // it; the glitch lasts 1.6s (1600ms). Change those numbers
+  // ★ TWEAK: EASTER EGG — 5 clicks/taps (or keyboard activations),
+  // resetting after a 1.5s pause. The effect lasts 1.6s. Change those numbers
   // below, or delete the setUpEasterEgg() line at the bottom of
   // this file to remove the egg.
   let clickCount = 0;
