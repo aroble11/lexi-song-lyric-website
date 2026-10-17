@@ -29,4 +29,5 @@ const SONGS = [
   "05-unrequited-love.txt",
   "06-invisible-reflection.txt",
   "07-where-are-you.txt",
+  "08-hometown.txt",
 ];

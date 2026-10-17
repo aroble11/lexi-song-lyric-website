@@ -1,0 +1,14 @@
+{
+    "schemaVersion":  1,
+    "songFile":  "08-hometown.txt",
+    "title":  "Hometown",
+    "timestampUtc":  "2026-10-17T05:19:39Z",
+    "packagedUtc":  "2026-10-17T05:19:38.6421147+00:00",
+    "files":  {
+                  "lyrics.txt":  "cce0c6d0771f259863b7415d8918f121f72f62baeb97b9803c2cd74790815901",
+                  "proof.tsr":  "d8f61b4fba92ea4dfd0f3b6f68662af5df10c4eb84432a5c50f943b664a30dfd",
+                  "cacert.pem":  "2151b61137ffa86bf664691ba67e7da0b19f98c758e3d228d5d8ebf27e044438",
+                  "tsa.crt":  "8bfb0305bb64e2571ca507552ef3245cb1c2fee8728e0ff8689225081ea13467"
+              },
+    "meaning":  "The timestamp proves existence of these exact bytes by its signed date, not authorship."
+}
